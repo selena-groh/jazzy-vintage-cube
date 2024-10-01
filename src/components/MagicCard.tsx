@@ -8,9 +8,8 @@ const COLOR_TO_BADGE_COLOR: { [key in Color]: string } = {
   [Color.Black]: "gray",
   [Color.Red]: "red",
   [Color.Green]: "green",
-  [Color.Gold]: "yellow",
+  [Color.Multicolored]: "yellow",
   [Color.Colorless]: "blackAlpha",
-  [Color.Artifact]: "blackAlpha",
   [Color.Land]: "purple",
 };
 

@@ -39,11 +39,10 @@ export function bucketCardsByColor(cards: Card[]): CardBuckets {
     [Color.Black]: cards.filter((card) => card.color === Color.Black),
     [Color.Red]: cards.filter((card) => card.color === Color.Red),
     [Color.Green]: cards.filter((card) => card.color === Color.Green),
-    [Color.Gold]: cards.filter((card) => card.color === Color.Gold),
-    // Currently, Artifact and Colorless are treated interchangeably, but you could also add a Color.Artifact here and change code in useCreatePacks to treat them separately
-    [Color.Colorless]: cards.filter(
-      (card) => card.color === Color.Artifact || card.color === Color.Colorless
+    [Color.Multicolored]: cards.filter(
+      (card) => card.color === Color.Multicolored
     ),
+    [Color.Colorless]: cards.filter((card) => card.color === Color.Colorless),
     [Color.Land]: cards.filter((card) => card.color === Color.Land),
   };
 }
@@ -51,7 +50,7 @@ export function bucketCardsByColor(cards: Card[]): CardBuckets {
 // General Algorithm to color cards
 //
 // 1. if card.type contains "Land" -> Land
-// 2. if card.cost contains more than 1 WUBRG OR card.type is Prophecy -> Gold
+// 2. if card.cost contains more than 1 WUBRG OR card.type is Prophecy -> Multicolored
 // 3. if card.cost contains W -> White
 // 4. if card.cost contains U -> Blue
 // 5. if card.cost contains B -> Black
@@ -74,9 +73,9 @@ export function getColorFromManaCost(mana_cost: string): Color {
   // Deduplicate so that WW becomes W
   var deduplicatedColoredManaChars = new Set(coloredManaChars);
 
-  // If there's more than one color in the deduplicated set, the card is gold
+  // If there's more than one color in the deduplicated set, the card is Multicolored
   if (deduplicatedColoredManaChars.size > 1) {
-    return Color.Gold;
+    return Color.Multicolored;
   }
 
   // Else, there's only one color (or zero) so we return the appropriate color
@@ -102,7 +101,7 @@ export function getColorFromCard(card: RawCard): Color {
     return Color.Land;
   }
   if (card.type.includes("Prophecy")) {
-    return Color.Gold;
+    return Color.Multicolored;
   }
   return getColorFromManaCost(card.mana_cost);
 }

@@ -40,7 +40,7 @@ describe("getColorFromCard", () => {
         image:
           "https://jjkv.github.io/jazzy_vintage_cube_images/output_images/A God from the Ashes.png",
       },
-      color: "Gold",
+      color: "Multicolored",
     },
     {
       card: {
@@ -60,7 +60,7 @@ describe("getColorFromCard", () => {
         image:
           "https://jjkv.github.io/jazzy_vintage_cube_images/output_images/Galactic Palm.png",
       },
-      color: "Gold",
+      color: "Multicolored",
     },
     {
       card: {
@@ -100,7 +100,7 @@ describe("getColorFromCard", () => {
         image:
           "https://jjkv.github.io/jazzy_vintage_cube_images/output_images/Piranai The Blighted Bloom.png",
       },
-      color: "Gold",
+      color: "Multicolored",
     },
     {
       card: {
@@ -120,7 +120,7 @@ describe("getColorFromCard", () => {
         image:
           "https://jjkv.github.io/jazzy_vintage_cube_images/output_images/Shape the Shadows.png",
       },
-      color: "Gold",
+      color: "Multicolored",
     },
   ])('card "$card.name" has color "$color"', ({ card, color }) => {
     expect(getColorFromCard(card)).toEqual(color);

@@ -14,13 +14,12 @@ export function isManaCost(maybeManaCost: unknown): maybeManaCost is ManaCost {
 
 export enum Color {
   Land = "Land",
-  Gold = "Gold",
+  Multicolored = "Multicolored",
   White = "White",
   Blue = "Blue",
   Black = "Black",
   Red = "Red",
   Green = "Green",
-  Artifact = "Artifact", // Note: I personally opted to categorize Artifacts as Colorless in my data to make adding X cards per color to each pack easier.
   Colorless = "Colorless",
 }
 

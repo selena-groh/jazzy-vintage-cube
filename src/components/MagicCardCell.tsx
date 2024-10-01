@@ -1,4 +1,4 @@
-import { Badge } from "@chakra-ui/react";
+import { Badge, Box, Text } from "@chakra-ui/react";
 import { Card, Color } from "@/utilities/types";
 import { Lightbox } from "react-modal-image";
 import { useState } from "react";
@@ -14,15 +14,12 @@ const COLOR_TO_BADGE_COLOR: { [key in Color]: string } = {
   [Color.Land]: "purple",
 };
 
-const MagicCardBadge = ({ card }: { card: Card }) => {
+const MagicCardCell = ({ card }: { card: Card }) => {
   const [showImage, setShowImage] = useState(false);
   return (
     <div>
-      <Badge
-        variant={card.color === Color.White ? "outline" : "solid"}
-        colorScheme={COLOR_TO_BADGE_COLOR[card.color]}
-        textTransform="initial"
-        whiteSpace="wrap"
+      <Text
+        fontSize="sm"
         cursor={card.image ? "pointer" : undefined}
         onClick={() => {
           if (card.image) {
@@ -31,9 +28,7 @@ const MagicCardBadge = ({ card }: { card: Card }) => {
         }}
       >
         {card.name}
-        {/* ({card.indexNumber ? `#${card.indexNumber} ` : ""}
-        {card.color}) */}
-      </Badge>
+      </Text>
       {card.image && showImage && (
         <Lightbox
           large={card.image}
@@ -46,4 +41,4 @@ const MagicCardBadge = ({ card }: { card: Card }) => {
   );
 };
 
-export default MagicCardBadge;
+export default MagicCardCell;
