@@ -1,3 +1,5 @@
+import { arrayToValueKeyObject } from "./utility_functions";
+
 type ColorSymbol = "W" | "U" | "B" | "R" | "G" | "P" | "C";
 type HybridColorSymbol = `${ColorSymbol | number}/${ColorSymbol}`;
 type ManaSymbol = ColorSymbol | HybridColorSymbol | number | "X" | "Y";
@@ -34,18 +36,11 @@ export const COLOR_ORDER = [
   Color.Land,
 ];
 
-// Converts [Color.White, Color.Blue, etc...] into an object like {[Color.White]: 0, [Color.Blue]: 1, etc...}
-function arrayToValueKeyObject(arr) {
-  return arr.reduce((acc, value, index) => {
-    acc[value] = index;
-    return acc;
-  }, {});
-}
 export const ColorOrderIndices = arrayToValueKeyObject(COLOR_ORDER);
 
 export const MANA_AFFECTING_CARD_COLOR = ["W", "U", "B", "R", "G"];
 
-export const COLORS_AFFECTING_MANA_VALUE = new RegExp("[WUBRGPC]", "i");
+export const MANA_AFFECTING_MANA_VALUE = new RegExp("[WUBRGPC]", "i");
 
 export enum TypeCategory {
   Land = "Land",
@@ -105,6 +100,6 @@ export type Card = {
 export type CardBuckets = { [key in Color]: Card[] };
 
 export type Pack = {
-  packNum: number;
+  packNum?: number;
   cards: Card[];
 };

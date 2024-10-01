@@ -1,77 +1,11 @@
 import {
   splitManaCostIntoArray,
   getManaValueFromCost,
-  getColorFromCard,
+  getColorFromRawCard,
   getTypeCategory,
 } from "../process_card";
 
-describe("splitManaCostIntoArray", () => {
-  test.each([
-    ["", []],
-    ["{W}", ["{W}"]],
-    ["{W}{U}{B}{R}{G}", ["{W}", "{U}", "{B}", "{R}", "{G}"]],
-    ["{1}{G}", ["{1}", "{G}"]],
-    ["{W/G}{P}", ["{W/G}", "{P}"]],
-    ["{10}", ["{10}"]],
-    ["{10/G}", ["{10/G}"]],
-  ])('mana_cost "%s" becomes "%s"', (mana_cost, expected) => {
-    expect(splitManaCostIntoArray(mana_cost)).toEqual(expected);
-  });
-  test.each([["{"], ["{W"], ["{}"], ["{Q}"]])(
-    'mana_cost "%s" throws Error "Invalid Mana Cost"',
-    (mana_cost) => {
-      expect(() => splitManaCostIntoArray(mana_cost)).toThrow(
-        "Invalid Mana Cost"
-      );
-    }
-  );
-});
-
-describe("getManaValueFromCost", () => {
-  test.each([
-    ["", 0],
-    ["{W}", 1],
-    ["{W}{U}{B}{R}{G}", 5],
-    ["{1}{G}", 2],
-    ["{2}{G}", 3],
-    ["{10}{G}", 11],
-    ["{W/G}{P}", 2],
-    ["{X}{2}", 2],
-    ["{2/W}", 2],
-    ["{X/W}", 1],
-    ["{R/W}", 1],
-    ["{1}{G}{R/W}{2/G}{P}", 6],
-    ["{0}", 0],
-  ])('mana_cost "%s" has mana value "%s"', (mana_cost, expected) => {
-    expect(getManaValueFromCost(mana_cost)).toEqual(expected);
-  });
-});
-
-describe("getTypeCategory", () => {
-  test.each([
-    ["Legendary Planeswalker", "Planeswalker"],
-    ["Land Planeswalker", "Land"],
-    ["Artifact Planeswalker", "Planeswalker"],
-    ["Legendary Artifact Creature", "Creature"],
-    ["Artifact Enchantment", "Artifact"],
-    ["Enchantment Artifact Creature", "Creature"],
-    ["Prophecy", "Prophecy"],
-    ["Legendary Snow Land", "Land"],
-    ["Kindred Enchantment", "Enchantment"],
-  ])('type "%s" has type category "%s"', (type, expected) => {
-    expect(getTypeCategory(type)).toEqual(expected);
-  });
-  test.each([["Invalid Type"]])(
-    'type "%s" throws Error "Could not calculate type category"',
-    (type) => {
-      expect(() => getTypeCategory(type)).toThrow(
-        "Could not calculate type category"
-      );
-    }
-  );
-});
-
-describe("getColorFromCard", () => {
+describe("getColorFromRawCard", () => {
   test.each([
     {
       card: {
@@ -174,6 +108,72 @@ describe("getColorFromCard", () => {
       color: "Multicolored",
     },
   ])('card "$card.name" has color "$color"', ({ card, color }) => {
-    expect(getColorFromCard(card)).toEqual(color);
+    expect(getColorFromRawCard(card)).toEqual(color);
   });
+});
+
+describe("splitManaCostIntoArray", () => {
+  test.each([
+    ["", []],
+    ["{W}", ["{W}"]],
+    ["{W}{U}{B}{R}{G}", ["{W}", "{U}", "{B}", "{R}", "{G}"]],
+    ["{1}{G}", ["{1}", "{G}"]],
+    ["{W/G}{P}", ["{W/G}", "{P}"]],
+    ["{10}", ["{10}"]],
+    ["{10/G}", ["{10/G}"]],
+  ])('mana_cost "%s" becomes "%s"', (mana_cost, expected) => {
+    expect(splitManaCostIntoArray(mana_cost)).toEqual(expected);
+  });
+  test.each([["{"], ["{W"], ["{}"], ["{Q}"]])(
+    'mana_cost "%s" throws Error "Invalid Mana Cost"',
+    (mana_cost) => {
+      expect(() => splitManaCostIntoArray(mana_cost)).toThrow(
+        "Invalid Mana Cost"
+      );
+    }
+  );
+});
+
+describe("getManaValueFromCost", () => {
+  test.each([
+    ["", 0],
+    ["{W}", 1],
+    ["{W}{U}{B}{R}{G}", 5],
+    ["{1}{G}", 2],
+    ["{2}{G}", 3],
+    ["{10}{G}", 11],
+    ["{W/G}{P}", 2],
+    ["{X}{2}", 2],
+    ["{2/W}", 2],
+    ["{X/W}", 1],
+    ["{R/W}", 1],
+    ["{1}{G}{R/W}{2/G}{P}", 6],
+    ["{0}", 0],
+  ])('mana_cost "%s" has mana value "%s"', (mana_cost, expected) => {
+    expect(getManaValueFromCost(mana_cost)).toEqual(expected);
+  });
+});
+
+describe("getTypeCategory", () => {
+  test.each([
+    ["Legendary Planeswalker", "Planeswalker"],
+    ["Land Planeswalker", "Land"],
+    ["Artifact Planeswalker", "Planeswalker"],
+    ["Legendary Artifact Creature", "Creature"],
+    ["Artifact Enchantment", "Artifact"],
+    ["Enchantment Artifact Creature", "Creature"],
+    ["Prophecy", "Prophecy"],
+    ["Legendary Snow Land", "Land"],
+    ["Kindred Enchantment", "Enchantment"],
+  ])('type "%s" has type category "%s"', (type, expected) => {
+    expect(getTypeCategory(type)).toEqual(expected);
+  });
+  test.each([["Invalid Type"]])(
+    'type "%s" throws Error "Could not calculate type category"',
+    (type) => {
+      expect(() => getTypeCategory(type)).toThrow(
+        "Could not calculate type category"
+      );
+    }
+  );
 });

@@ -1,56 +1,13 @@
 import {
   Card,
   Color,
-  COLORS_AFFECTING_MANA_VALUE,
+  MANA_AFFECTING_MANA_VALUE,
   isManaCost,
   MANA_AFFECTING_CARD_COLOR,
   ManaCost,
   RawCard,
   TypeCategory,
-  TypeCategoryOrderIndices,
 } from "./magic_types";
-
-// Splits a string into an array of each bracket e.g. "{W}{G/P}" becomes ["{W}", "{G/P}"]
-export function splitManaCostIntoArray(mana_cost: string): ManaCost[] {
-  const maybeManaCosts: unknown[] = mana_cost.match(/\{[^}]+\}/g) || [];
-
-  if (maybeManaCosts.length === 0 && mana_cost) {
-    throw new Error("Invalid Mana Cost");
-  }
-
-  const manaCosts: ManaCost[] = maybeManaCosts.map((maybeManaCost) => {
-    if (isManaCost(maybeManaCost)) {
-      return maybeManaCost as ManaCost;
-    }
-    throw new Error("Invalid Mana Cost");
-  });
-
-  return manaCosts;
-}
-
-export function getManaValueFromCost(mana_cost: string): number {
-  const manaCostArray = splitManaCostIntoArray(mana_cost);
-
-  const manaValue = manaCostArray.reduce((acc, currentValueInBrackets) => {
-    const currentValue = currentValueInBrackets
-      .replace("{", "")
-      .replace("}", "");
-    const numbersInCurrentValue = currentValue.replace(/[^0-9]/g, "");
-
-    if (numbersInCurrentValue) {
-      // If current value contains a number, use that number
-      return acc + Number(numbersInCurrentValue);
-    } else if (COLORS_AFFECTING_MANA_VALUE.test(currentValue)) {
-      // If current value contains a character that affects mana value (e.g. W, U, B, R, G, P, C), add 1
-      return acc + 1;
-    } else {
-      // Add 0 if it doesn't contain a number or a character that affects mana value (for example, if the pip is just X, the value is 0)
-      return acc;
-    }
-  }, 0);
-
-  return manaValue;
-}
 
 // General Algorithm to color cards
 //
@@ -99,7 +56,7 @@ function getColorFromManaCost(mana_cost: string): Color {
   }
 }
 
-export function getColorFromCard(rawCard: RawCard): Color {
+export function getColorFromRawCard(rawCard: RawCard): Color {
   if (rawCard.type.includes("Land")) {
     return Color.Land;
   }
@@ -107,6 +64,48 @@ export function getColorFromCard(rawCard: RawCard): Color {
     return Color.Multicolored;
   }
   return getColorFromManaCost(rawCard.mana_cost);
+}
+
+// Splits a string into an array of each bracket e.g. "{W}{G/P}" becomes ["{W}", "{G/P}"]
+export function splitManaCostIntoArray(mana_cost: string): ManaCost[] {
+  const maybeManaCosts: unknown[] = mana_cost.match(/\{[^}]+\}/g) || [];
+
+  if (maybeManaCosts.length === 0 && mana_cost) {
+    throw new Error("Invalid Mana Cost");
+  }
+
+  const manaCosts: ManaCost[] = maybeManaCosts.map((maybeManaCost) => {
+    if (isManaCost(maybeManaCost)) {
+      return maybeManaCost as ManaCost;
+    }
+    throw new Error("Invalid Mana Cost");
+  });
+
+  return manaCosts;
+}
+
+export function getManaValueFromCost(mana_cost: string): number {
+  const manaCostArray = splitManaCostIntoArray(mana_cost);
+
+  const manaValue = manaCostArray.reduce((acc, currentValueInBrackets) => {
+    const currentValue = currentValueInBrackets
+      .replace("{", "")
+      .replace("}", "");
+    const numbersInCurrentValue = currentValue.replace(/[^0-9]/g, "");
+
+    if (numbersInCurrentValue) {
+      // If current value contains a number, use that number
+      return acc + Number(numbersInCurrentValue);
+    } else if (MANA_AFFECTING_MANA_VALUE.test(currentValue)) {
+      // If current value contains a character that affects mana value (e.g. W, U, B, R, G, P, C), add 1
+      return acc + 1;
+    } else {
+      // Add 0 if it doesn't contain a number or a character that affects mana value (for example, if the pip is just X, the value is 0)
+      return acc;
+    }
+  }, 0);
+
+  return manaValue;
 }
 
 // Type category is one of: creature, instant, sorcery, enchantment, artifact, planeswalker, land, prophecy, battle
@@ -138,7 +137,7 @@ export function getTypeCategory(rawType: string): string {
 export function processCard(rawCard: RawCard): Card {
   return {
     ...rawCard,
-    color: getColorFromCard(rawCard),
+    color: getColorFromRawCard(rawCard),
     manaValue: getManaValueFromCost(rawCard.mana_cost),
     typeCategory: getTypeCategory(rawCard.type),
   };
