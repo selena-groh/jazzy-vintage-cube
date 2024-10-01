@@ -27,7 +27,10 @@ const MagicCardCell = ({ card }: { card: Card }) => {
           }
         }}
       >
-        {`${card.name} (${card.manaValue}, ${card.typeCategory})`}
+        {card.name}
+        {card.typeCategory !== TypeCategory.Land
+          ? ` (${card.manaValue}, ${card.typeCategory})`
+          : ""}
       </Text>
       {card.image && showImage && (
         <Lightbox

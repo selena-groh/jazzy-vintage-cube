@@ -36,7 +36,7 @@ const TableView = ({ bucketedCards }: { bucketedCards: CardBuckets }) => {
                 p="8px"
                 backgroundColor={COLOR_TO_BACKGROUND_COLOR[bucketKey]}
               >
-                <Heading as="h3" size="md">
+                <Heading as="h3" size="md" mb="4px">
                   {bucketKey} ({cardsInBucket.length})
                 </Heading>
                 <Box display="flex" flexDirection="column" gap="2px">
