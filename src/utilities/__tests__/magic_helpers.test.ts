@@ -12,6 +12,7 @@ describe("splitManaCostIntoArray", () => {
     ["{W}{U}{B}{R}{G}", ["{W}", "{U}", "{B}", "{R}", "{G}"]],
     ["{1}{G}", ["{1}", "{G}"]],
     ["{W/G}{P}", ["{W/G}", "{P}"]],
+    ["{10}", ["{10}"]],
   ])('mana_cost "%s" becomes "%s"', (mana_cost, expected) => {
     expect(splitManaCostIntoArray(mana_cost)).toEqual(expected);
   });

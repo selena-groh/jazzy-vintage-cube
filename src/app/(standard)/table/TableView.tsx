@@ -4,6 +4,7 @@ import React from "react";
 import { Box, Heading, SimpleGrid } from "@chakra-ui/react";
 import { CardBuckets, Color } from "@/utilities/magic_types";
 import MagicCardCell from "@/components/MagicCardCell";
+import { defaultTableSort } from "@/utilities/magic_helpers";
 
 const COLOR_TO_BACKGROUND_COLOR: { [key in Color]: string } = {
   [Color.White]: "#FBF8CC",
@@ -27,21 +28,27 @@ const TableView = ({ bucketedCards }: { bucketedCards: CardBuckets }) => {
         columns={{ sm: 2, md: 3, lg: bucketKeys.length }}
         spacingY="8px"
       >
-        {bucketKeys.map((bucketKey) => (
-          <Box key={bucketKey}>
-            <Box p="8px" backgroundColor={COLOR_TO_BACKGROUND_COLOR[bucketKey]}>
-              <Heading as="h3" size="md">
-                {bucketKey} ({bucketedCards[bucketKey].length})
-              </Heading>
-              <Box display="flex" flexDirection="column" gap="2px">
-                {bucketedCards[bucketKey].map((card) => (
-                  // TODO: add hover image
-                  <MagicCardCell card={card} key={card.name} />
-                ))}
+        {bucketKeys.map((bucketKey) => {
+          const cardsInBucket = bucketedCards[bucketKey].sort(defaultTableSort);
+          return (
+            <Box key={bucketKey}>
+              <Box
+                p="8px"
+                backgroundColor={COLOR_TO_BACKGROUND_COLOR[bucketKey]}
+              >
+                <Heading as="h3" size="md">
+                  {bucketKey} ({cardsInBucket.length})
+                </Heading>
+                <Box display="flex" flexDirection="column" gap="2px">
+                  {cardsInBucket.map((card) => (
+                    // TODO: add hover image
+                    <MagicCardCell card={card} key={card.name} />
+                  ))}
+                </Box>
               </Box>
             </Box>
-          </Box>
-        ))}
+          );
+        })}
       </SimpleGrid>
     </div>
   );

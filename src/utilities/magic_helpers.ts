@@ -8,7 +8,21 @@ import {
   MANA_AFFECTING_CARD_COLOR,
   ManaCost,
   RawCard,
+  TypeCategory,
+  TypeCategoryOrderIndices,
 } from "./magic_types";
+
+export function shuffleArray(oldArray: any[]): any[] {
+  var j, x, i;
+  var newArray = oldArray;
+  for (i = newArray.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = newArray[i];
+    newArray[i] = newArray[j];
+    newArray[j] = x;
+  }
+  return newArray;
+}
 
 // Note: to obtain indexNumber (e.g. 51) from a number (e.g. 51/540), you can run card.number.split("/")[0]
 export function getIndexNumberFromTotalNumber(
@@ -136,23 +150,23 @@ export function getColorFromCard(rawCard: RawCard): Color {
 export function getTypeCategory(rawType: string): string {
   const type = rawType.toLowerCase();
   if (type.includes("land")) {
-    return "Land";
+    return TypeCategory.Land;
   } else if (type.includes("planeswalker")) {
-    return "Planeswalker";
-  } else if (type.includes("creature")) {
-    return "Creature";
+    return TypeCategory.Planeswalker;
+  } else if (type.includes("creature") || type.includes("summon")) {
+    return TypeCategory.Creature;
   } else if (type.includes("artifact")) {
-    return "Artifact";
+    return TypeCategory.Artifact;
   } else if (type.includes("enchantment")) {
-    return "Enchantment";
-  } else if (type.includes("instant")) {
-    return "Instant";
+    return TypeCategory.Enchantment;
+  } else if (type.includes("instant") || type.includes("interrupt")) {
+    return TypeCategory.Instant;
   } else if (type.includes("sorcery")) {
-    return "Sorcery";
+    return TypeCategory.Sorcery;
   } else if (type.includes("prophecy")) {
-    return "Prophecy";
+    return TypeCategory.Prophecy;
   } else if (type.includes("battle")) {
-    return "Battle";
+    return TypeCategory.Battle;
   }
   throw new Error("Could not calculate type category");
 }
@@ -162,38 +176,53 @@ export function processCard(rawCard: RawCard): Card {
     ...rawCard,
     color: getColorFromCard(rawCard),
     manaValue: getManaValueFromCost(rawCard.mana_cost),
+    typeCategory: getTypeCategory(rawCard.type),
   };
 }
 
-// TODO add more sorting methods
 // default table sort in order:
 // - sort by color (in color order, see cube cobra)
 // for WUBRG + colorless:
 // - sort by type (creature, then every other type in alphabetical order)
-// - sort by mana value (integer) -> if #, that number, if X/Y/etc.., 0, else 1 (line separating mana value)
+// - sort by mana value (integer) (show line separating mana values)
 // - sort by name
 // for multicolor:
-// - maybe sort by prophecy first (on top)
-// - sort by confusing names (color identity) -> prophecies will be their own category
+// - sort by prophecy first (on top)
+// - sort by confusing names (color identity)
 // - sort by mana value
 // - sort by name
 // for lands:
-// - alphabetically
-
-// default gallery sort
-// - sort by color (in color order, see cube cobra)
-// - alphabetically
-
-export function sortCards(a: Card, b: Card): number {
+// - sort by name
+export function defaultTableSort(a: Card, b: Card): number {
   const aColorIndex = ColorOrderIndices[a.color];
   const bColorIndex = ColorOrderIndices[b.color];
+  const aTypeCategoryIndex = a.typeCategory
+    ? TypeCategoryOrderIndices[a.typeCategory]
+    : 99;
+  const bTypeCategoryIndex = b.typeCategory
+    ? TypeCategoryOrderIndices[b.typeCategory]
+    : 99;
 
   if (aColorIndex < bColorIndex) {
     return -1;
-  }
-  if (aColorIndex > bColorIndex) {
+  } else if (aColorIndex > bColorIndex) {
     return 1;
+  } else if (a.color !== Color.Land) {
+    // TODO: multicolor has different sorting, need to add it
+    if (aTypeCategoryIndex < bTypeCategoryIndex) {
+      return -1;
+    } else if (aTypeCategoryIndex > bTypeCategoryIndex) {
+      return 1;
+    }
+    const aManaValue = a.manaValue || 0;
+    const bManaValue = b.manaValue || 0;
+    if (aManaValue < bManaValue) {
+      return -1;
+    } else if (aManaValue > bManaValue) {
+      return 1;
+    }
   }
+
   if (a.name < b.name) {
     return -1;
   }
@@ -203,6 +232,9 @@ export function sortCards(a: Card, b: Card): number {
   return 0;
 }
 
+// default gallery sort
+// - sort by color (in color order, see cube cobra)
+// - alphabetically
 export function gallerySort(a: Card, b: Card): number {
   const aColorIndex = ColorOrderIndices[a.color];
   const bColorIndex = ColorOrderIndices[b.color];

@@ -6,7 +6,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import MagicCardBadge from "@/components/MagicCardBadge";
-import { sortCards } from "@/utilities/magic_helpers";
+import { defaultTableSort } from "@/utilities/magic_helpers";
 import { Card } from "@/utilities/magic_types";
 import Link from "next/link";
 
@@ -17,7 +17,7 @@ const CardGroupAccordionItem = ({
   title: string;
   cards: Card[];
 }) => {
-  const sortedCards = cards?.sort(sortCards);
+  const sortedCards = cards?.sort(defaultTableSort);
   return (
     <AccordionItem>
       <h3>
