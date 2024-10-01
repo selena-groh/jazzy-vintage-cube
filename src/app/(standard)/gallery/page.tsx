@@ -1,5 +1,5 @@
 import GalleryView from "./GalleryView";
-import { getColorFromCard } from "@/utilities/magic_helpers";
+import { getColorFromCard, sortCards } from "@/utilities/magic_helpers";
 import { Card, RawCard } from "@/utilities/types";
 
 export default async function Page() {
@@ -11,6 +11,7 @@ export default async function Page() {
     ...card,
     color: getColorFromCard(card),
   }));
+  const sortedCards = cards.sort(sortCards);
 
-  return <GalleryView cards={cards} />;
+  return <GalleryView cards={sortedCards} />;
 }

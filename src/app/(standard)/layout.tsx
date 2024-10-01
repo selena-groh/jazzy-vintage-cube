@@ -10,21 +10,35 @@ const Layout = ({ children }) => {
       <SkipNavLink>Skip to content</SkipNavLink>
       <main>
         <Container py={{ base: 8 }} px={4} maxWidth="1600px" margin="auto">
-          <Box is="header" mb="32px">
-            <SkipNavContent />
-            <Heading as="h1" size="2xl">
-              Jazzy Vintage Cube
-            </Heading>
-            <Text color="gray.600">
-              A custom, vintage-power-level Magic the Gathering cube.
-            </Text>
-            <Flex direction={["column", "row"]} gap="32px" justify="flex-start">
+          <SkipNavContent />
+          <Flex
+            is="header"
+            mb="32px"
+            direction={{ base: "column", lg: "row" }}
+            gap="16px"
+            alignItems="center"
+            justifyContent="space-between"
+            textAlign={{ base: "center", lg: "left" }}
+          >
+            <div>
+              <Heading as="h1" size="2xl">
+                Jazzy Vintage Cube
+              </Heading>
+              <Text color="gray.600">
+                A custom, vintage-power-level Magic the Gathering cube.
+              </Text>
+            </div>
+            <Flex
+              direction={["column", "row"]}
+              gap={{ base: "8px", lg: "32px" }}
+              justify="flex-start"
+            >
               <Link href="/">Overview</Link>
               <Link href="/table">Table View</Link>
               <Link href="/gallery">Gallery View</Link>
               <Link href="/random-pack">Random Pack</Link>
             </Flex>
-          </Box>
+          </Flex>
           {children}
         </Container>
       </main>

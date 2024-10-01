@@ -13,9 +13,12 @@ const GalleryView = ({ cards }: { cards: Card[] }) => {
       </Heading>
       {/* TODO: add ability to pick card size */}
       {/* TODO: add hover image */}
-      <SimpleGrid columns={{ sm: 2, md: 4, lg: 5, xl: 6 }} spacing="4px">
+      <SimpleGrid
+        columns={{ base: 2, sm: 2, md: 4, lg: 5, xl: 7 }}
+        spacing="4px"
+      >
         {cards.map((card) => (
-          <MagicCard card={card} />
+          <MagicCard card={card} key={card.name} />
         ))}
       </SimpleGrid>
     </div>

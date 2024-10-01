@@ -106,10 +106,27 @@ export function getColorFromCard(card: RawCard): Color {
   return getColorFromManaCost(card.mana_cost);
 }
 
+// TODO add more sorting methods
+// default table sort in order:
+// - sort by color (in color order, see cube cobra)
+// for WUBRG + colorless:
+// - sort by type (creature, then every other type in alphabetical order)
+// - sort by mana value (integer) -> if #, that number, if X/Y/etc.., 0, else 1 (line separating mana value)
+// - sort by name
+// for multicolor:
+// - maybe sort by prophecy first (on top)
+// - sort by confusing names (color identity) -> prophecies will be their own category
+// - sort by mana value
+// - sort by name
+// for lands:
+// - alphabetically
+
+// default gallery sort
+// - sort by color (in color order, see cube cobra)
+// - alphabetically
+
 export function sortCards(a: Card, b: Card): number {
-  if (a.indexNumber && b.indexNumber) {
-    return a.indexNumber - b.indexNumber;
-  }
+  // TODO: implement color order
   if (a.color < b.color) {
     return -1;
   }
