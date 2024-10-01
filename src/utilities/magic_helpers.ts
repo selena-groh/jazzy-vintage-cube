@@ -2,10 +2,13 @@ import {
   Card,
   CardBuckets,
   Color,
+  ColorOrderIndices,
+  COLORS_AFFECTING_MANA_VALUE,
   isManaCost,
+  MANA_AFFECTING_CARD_COLOR,
   ManaCost,
   RawCard,
-} from "./types";
+} from "./magic_types";
 
 // Note: to obtain indexNumber (e.g. 51) from a number (e.g. 51/540), you can run card.number.split("/")[0]
 export function getIndexNumberFromTotalNumber(
@@ -30,6 +33,30 @@ export function splitManaCostIntoArray(mana_cost: string): ManaCost[] {
   });
 
   return manaCosts;
+}
+
+export function getManaValueFromCost(mana_cost: string): number {
+  const manaCostArray = splitManaCostIntoArray(mana_cost);
+
+  const manaValue = manaCostArray.reduce((acc, currentValueInBrackets) => {
+    const currentValue = currentValueInBrackets
+      .replace("{", "")
+      .replace("}", "");
+    const numbersInCurrentValue = currentValue.replace(/[^0-9]/g, "");
+
+    if (numbersInCurrentValue) {
+      // If current value contains a number, use that number
+      return acc + Number(numbersInCurrentValue);
+    } else if (COLORS_AFFECTING_MANA_VALUE.test(currentValue)) {
+      // If current value contains a character that affects mana value (e.g. W, U, B, R, G, P, C), add 1
+      return acc + 1;
+    } else {
+      // Add 0 if it doesn't contain a number or a character that affects mana value (for example, if the pip is just X, the value is 0)
+      return acc;
+    }
+  }, 0);
+
+  return manaValue;
 }
 
 export function bucketCardsByColor(cards: Card[]): CardBuckets {
@@ -61,8 +88,6 @@ export function bucketCardsByColor(cards: Card[]): CardBuckets {
 // --- OR ---
 // 8. if card.type contains "Artifact" -> Artifact
 // 9. else -> Colorless
-
-const MANA_AFFECTING_CARD_COLOR = ["W", "U", "B", "R", "G"];
 
 export function getColorFromManaCost(mana_cost: string): Color {
   // Strip out all characters besides WUBRG
@@ -96,14 +121,48 @@ export function getColorFromManaCost(mana_cost: string): Color {
   }
 }
 
-export function getColorFromCard(card: RawCard): Color {
-  if (card.type.includes("Land")) {
+export function getColorFromCard(rawCard: RawCard): Color {
+  if (rawCard.type.includes("Land")) {
     return Color.Land;
   }
-  if (card.type.includes("Prophecy")) {
+  if (rawCard.type.includes("Prophecy")) {
     return Color.Multicolored;
   }
-  return getColorFromManaCost(card.mana_cost);
+  return getColorFromManaCost(rawCard.mana_cost);
+}
+
+// Type category is one of: creature, instant, sorcery, enchantment, artifact, planeswalker, land, prophecy, battle
+// tiebreakers: land > planeswalker > creature > artifact > enchantment > instant > sorcery > prophecy > battle
+export function getTypeCategory(rawType: string): string {
+  const type = rawType.toLowerCase();
+  if (type.includes("land")) {
+    return "Land";
+  } else if (type.includes("planeswalker")) {
+    return "Planeswalker";
+  } else if (type.includes("creature")) {
+    return "Creature";
+  } else if (type.includes("artifact")) {
+    return "Artifact";
+  } else if (type.includes("enchantment")) {
+    return "Enchantment";
+  } else if (type.includes("instant")) {
+    return "Instant";
+  } else if (type.includes("sorcery")) {
+    return "Sorcery";
+  } else if (type.includes("prophecy")) {
+    return "Prophecy";
+  } else if (type.includes("battle")) {
+    return "Battle";
+  }
+  throw new Error("Could not calculate type category");
+}
+
+export function processCard(rawCard: RawCard): Card {
+  return {
+    ...rawCard,
+    color: getColorFromCard(rawCard),
+    manaValue: getManaValueFromCost(rawCard.mana_cost),
+  };
 }
 
 // TODO add more sorting methods
@@ -126,11 +185,32 @@ export function getColorFromCard(card: RawCard): Color {
 // - alphabetically
 
 export function sortCards(a: Card, b: Card): number {
-  // TODO: implement color order
-  if (a.color < b.color) {
+  const aColorIndex = ColorOrderIndices[a.color];
+  const bColorIndex = ColorOrderIndices[b.color];
+
+  if (aColorIndex < bColorIndex) {
     return -1;
   }
-  if (a.color > b.color) {
+  if (aColorIndex > bColorIndex) {
+    return 1;
+  }
+  if (a.name < b.name) {
+    return -1;
+  }
+  if (a.name > b.name) {
+    return 1;
+  }
+  return 0;
+}
+
+export function gallerySort(a: Card, b: Card): number {
+  const aColorIndex = ColorOrderIndices[a.color];
+  const bColorIndex = ColorOrderIndices[b.color];
+
+  if (aColorIndex < bColorIndex) {
+    return -1;
+  }
+  if (aColorIndex > bColorIndex) {
     return 1;
   }
   if (a.name < b.name) {

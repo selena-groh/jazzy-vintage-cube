@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import MagicCardBadge from "@/components/MagicCardBadge";
 import { sortCards } from "@/utilities/magic_helpers";
-import { Card } from "@/utilities/types";
+import { Card } from "@/utilities/magic_types";
 import Link from "next/link";
 
 const CardGroupAccordionItem = ({

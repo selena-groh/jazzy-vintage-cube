@@ -1,4 +1,9 @@
-import { getColorFromCard, splitManaCostIntoArray } from "../magic_helpers";
+import {
+  splitManaCostIntoArray,
+  getManaValueFromCost,
+  getColorFromCard,
+  getTypeCategory,
+} from "../magic_helpers";
 
 describe("splitManaCostIntoArray", () => {
   test.each([
@@ -18,6 +23,41 @@ describe("splitManaCostIntoArray", () => {
       );
     }
   );
+});
+
+describe("getManaValueFromCost", () => {
+  test.each([
+    ["", 0],
+    ["{W}", 1],
+    ["{W}{U}{B}{R}{G}", 5],
+    ["{1}{G}", 2],
+    ["{2}{G}", 3],
+    ["{W/G}{P}", 2],
+    ["{X}{2}", 2],
+    ["{2/W}", 2],
+    ["{X/W}", 1],
+    ["{R/W}", 1],
+    ["{1}{G}{R/W}{2/G}{P}", 6],
+    ["{0}", 0],
+  ])('mana_cost "%s" has mana value "%s"', (mana_cost, expected) => {
+    expect(getManaValueFromCost(mana_cost)).toEqual(expected);
+  });
+});
+
+describe("getTypeCategory", () => {
+  test.each([
+    ["Legendary Planeswalker", "Planeswalker"],
+    ["Land Planeswalker", "Land"],
+    ["Artifact Planeswalker", "Planeswalker"],
+    ["Legendary Artifact Creature", "Creature"],
+    ["Artifact Enchantment", "Artifact"],
+    ["Enchantment Artifact Creature", "Creature"],
+    ["Prophecy", "Prophecy"],
+    ["Legendary Snow Land", "Land"],
+    ["Kindred Enchantment", "Enchantment"],
+  ])('type "%s" has type category "%s"', (type, expected) => {
+    expect(getTypeCategory(type)).toEqual(expected);
+  });
 });
 
 describe("getColorFromCard", () => {

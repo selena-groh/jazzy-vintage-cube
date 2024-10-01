@@ -1,5 +1,5 @@
 import { Badge } from "@chakra-ui/react";
-import { Card, Color } from "@/utilities/types";
+import { Card, Color } from "@/utilities/magic_types";
 import Image from "next/image";
 
 const COLOR_TO_BADGE_COLOR: { [key in Color]: string } = {

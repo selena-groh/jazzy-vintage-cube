@@ -3,7 +3,7 @@
 import React from "react";
 import { Heading, SimpleGrid } from "@chakra-ui/react";
 import MagicCard from "@/components/MagicCard";
-import { Card } from "@/utilities/types";
+import { Card } from "@/utilities/magic_types";
 
 const GalleryView = ({ cards }: { cards: Card[] }) => {
   return (

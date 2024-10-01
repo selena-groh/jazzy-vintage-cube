@@ -13,15 +13,36 @@ export function isManaCost(maybeManaCost: unknown): maybeManaCost is ManaCost {
 }
 
 export enum Color {
-  Land = "Land",
-  Multicolored = "Multicolored",
   White = "White",
   Blue = "Blue",
   Black = "Black",
   Red = "Red",
   Green = "Green",
+  Multicolored = "Multicolored",
   Colorless = "Colorless",
+  Land = "Land",
 }
+
+export const COLOR_ORDER = [
+  Color.White,
+  Color.Blue,
+  Color.Black,
+  Color.Red,
+  Color.Green,
+  Color.Multicolored,
+  Color.Colorless,
+  Color.Land,
+];
+
+// Converts [Color.White, Color.Blue, etc...] into an object like {[Color.White]: 0, [Color.Blue]: 1, etc...}
+export const ColorOrderIndices = COLOR_ORDER.reduce((acc, value, index) => {
+  acc[value] = index;
+  return acc;
+}, {});
+
+export const MANA_AFFECTING_CARD_COLOR = ["W", "U", "B", "R", "G"];
+
+export const COLORS_AFFECTING_MANA_VALUE = new RegExp("[WUBRGPC]", "i");
 
 export type RawCard = {
   name: string;
@@ -40,7 +61,9 @@ export type Card = {
   color: Color;
   indexNumber?: number;
   mana_cost?: string;
+  manaValue?: number;
   type?: string;
+  typeCategory?: string;
   image?: string;
   back?: {
     name: string;

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Box, Heading, SimpleGrid } from "@chakra-ui/react";
-import { CardBuckets, Color } from "@/utilities/types";
+import { CardBuckets, Color } from "@/utilities/magic_types";
 import MagicCardCell from "@/components/MagicCardCell";
 
 const COLOR_TO_BACKGROUND_COLOR: { [key in Color]: string } = {
@@ -28,7 +28,7 @@ const TableView = ({ bucketedCards }: { bucketedCards: CardBuckets }) => {
         spacingY="8px"
       >
         {bucketKeys.map((bucketKey) => (
-          <Box>
+          <Box key={bucketKey}>
             <Box p="8px" backgroundColor={COLOR_TO_BACKGROUND_COLOR[bucketKey]}>
               <Heading as="h3" size="md">
                 {bucketKey} ({bucketedCards[bucketKey].length})

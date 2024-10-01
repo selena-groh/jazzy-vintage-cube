@@ -1,5 +1,5 @@
 import { Badge } from "@chakra-ui/react";
-import { Card, Color } from "@/utilities/types";
+import { Card, Color } from "@/utilities/magic_types";
 import { Lightbox } from "react-modal-image";
 import { useState } from "react";
 
