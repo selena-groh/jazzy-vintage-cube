@@ -15,7 +15,10 @@ const RandomPack = ({ cards }: { cards: Card[] }) => {
         Random Pack
       </Heading>
       {/* TODO: add input to select number of cards */}
-      <SimpleGrid columns={{ base: 2, sm: 2, md: 3, lg: 5 }} spacing="4px">
+      <SimpleGrid
+        columns={{ base: 2, sm: 2, md: 3, lg: 5, xl: 8 }}
+        spacing="4px"
+      >
         {pack.map((card) => (
           <MagicCard card={card} key={card.name} />
         ))}
