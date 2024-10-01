@@ -3,7 +3,7 @@ import {
   getManaValueFromCost,
   getColorFromCard,
   getTypeCategory,
-} from "../magic_helpers";
+} from "../process_card";
 
 describe("splitManaCostIntoArray", () => {
   test.each([
@@ -13,6 +13,7 @@ describe("splitManaCostIntoArray", () => {
     ["{1}{G}", ["{1}", "{G}"]],
     ["{W/G}{P}", ["{W/G}", "{P}"]],
     ["{10}", ["{10}"]],
+    ["{10/G}", ["{10/G}"]],
   ])('mana_cost "%s" becomes "%s"', (mana_cost, expected) => {
     expect(splitManaCostIntoArray(mana_cost)).toEqual(expected);
   });
@@ -33,6 +34,7 @@ describe("getManaValueFromCost", () => {
     ["{W}{U}{B}{R}{G}", 5],
     ["{1}{G}", 2],
     ["{2}{G}", 3],
+    ["{10}{G}", 11],
     ["{W/G}{P}", 2],
     ["{X}{2}", 2],
     ["{2/W}", 2],
@@ -59,6 +61,14 @@ describe("getTypeCategory", () => {
   ])('type "%s" has type category "%s"', (type, expected) => {
     expect(getTypeCategory(type)).toEqual(expected);
   });
+  test.each([["Invalid Type"]])(
+    'type "%s" throws Error "Could not calculate type category"',
+    (type) => {
+      expect(() => getTypeCategory(type)).toThrow(
+        "Could not calculate type category"
+      );
+    }
+  );
 });
 
 describe("getColorFromCard", () => {

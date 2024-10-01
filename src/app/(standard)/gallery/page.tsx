@@ -1,5 +1,6 @@
 import GalleryView from "./GalleryView";
-import { gallerySort, processCard } from "@/utilities/magic_helpers";
+import { processCard } from "@/utilities/process_card";
+import { gallerySort } from "@/utilities/sorting_algorithms";
 import { Card, RawCard } from "@/utilities/magic_types";
 
 export default async function Page() {

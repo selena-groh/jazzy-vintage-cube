@@ -1,8 +1,6 @@
 import {
   Card,
-  CardBuckets,
   Color,
-  ColorOrderIndices,
   COLORS_AFFECTING_MANA_VALUE,
   isManaCost,
   MANA_AFFECTING_CARD_COLOR,
@@ -11,25 +9,6 @@ import {
   TypeCategory,
   TypeCategoryOrderIndices,
 } from "./magic_types";
-
-export function shuffleArray(oldArray: any[]): any[] {
-  var j, x, i;
-  var newArray = oldArray;
-  for (i = newArray.length - 1; i > 0; i--) {
-    j = Math.floor(Math.random() * (i + 1));
-    x = newArray[i];
-    newArray[i] = newArray[j];
-    newArray[j] = x;
-  }
-  return newArray;
-}
-
-// Note: to obtain indexNumber (e.g. 51) from a number (e.g. 51/540), you can run card.number.split("/")[0]
-export function getIndexNumberFromTotalNumber(
-  number: `${number}/${number}`
-): number {
-  return parseInt(number.split("/")[0]);
-}
 
 // Splits a string into an array of each bracket e.g. "{W}{G/P}" becomes ["{W}", "{G/P}"]
 export function splitManaCostIntoArray(mana_cost: string): ManaCost[] {
@@ -73,21 +52,6 @@ export function getManaValueFromCost(mana_cost: string): number {
   return manaValue;
 }
 
-export function bucketCardsByColor(cards: Card[]): CardBuckets {
-  return {
-    [Color.White]: cards.filter((card) => card.color === Color.White),
-    [Color.Blue]: cards.filter((card) => card.color === Color.Blue),
-    [Color.Black]: cards.filter((card) => card.color === Color.Black),
-    [Color.Red]: cards.filter((card) => card.color === Color.Red),
-    [Color.Green]: cards.filter((card) => card.color === Color.Green),
-    [Color.Multicolored]: cards.filter(
-      (card) => card.color === Color.Multicolored
-    ),
-    [Color.Colorless]: cards.filter((card) => card.color === Color.Colorless),
-    [Color.Land]: cards.filter((card) => card.color === Color.Land),
-  };
-}
-
 // General Algorithm to color cards
 //
 // 1. if card.type contains "Land" -> Land
@@ -103,7 +67,7 @@ export function bucketCardsByColor(cards: Card[]): CardBuckets {
 // 8. if card.type contains "Artifact" -> Artifact
 // 9. else -> Colorless
 
-export function getColorFromManaCost(mana_cost: string): Color {
+function getColorFromManaCost(mana_cost: string): Color {
   // Strip out all characters besides WUBRG
   const coloredManaChars = mana_cost
     .split("")
@@ -178,78 +142,4 @@ export function processCard(rawCard: RawCard): Card {
     manaValue: getManaValueFromCost(rawCard.mana_cost),
     typeCategory: getTypeCategory(rawCard.type),
   };
-}
-
-// default table sort in order:
-// - sort by color (in color order, see cube cobra)
-// for WUBRG + colorless:
-// - sort by type (creature, then every other type in alphabetical order)
-// - sort by mana value (integer) (show line separating mana values)
-// - sort by name
-// for multicolor:
-// - sort by prophecy first (on top)
-// - sort by confusing names (color identity)
-// - sort by mana value
-// - sort by name
-// for lands:
-// - sort by name
-export function defaultTableSort(a: Card, b: Card): number {
-  const aColorIndex = ColorOrderIndices[a.color];
-  const bColorIndex = ColorOrderIndices[b.color];
-  const aTypeCategoryIndex = a.typeCategory
-    ? TypeCategoryOrderIndices[a.typeCategory]
-    : 99;
-  const bTypeCategoryIndex = b.typeCategory
-    ? TypeCategoryOrderIndices[b.typeCategory]
-    : 99;
-
-  if (aColorIndex < bColorIndex) {
-    return -1;
-  } else if (aColorIndex > bColorIndex) {
-    return 1;
-  } else if (a.color !== Color.Land) {
-    // TODO: multicolor has different sorting, need to add it
-    if (aTypeCategoryIndex < bTypeCategoryIndex) {
-      return -1;
-    } else if (aTypeCategoryIndex > bTypeCategoryIndex) {
-      return 1;
-    }
-    const aManaValue = a.manaValue || 0;
-    const bManaValue = b.manaValue || 0;
-    if (aManaValue < bManaValue) {
-      return -1;
-    } else if (aManaValue > bManaValue) {
-      return 1;
-    }
-  }
-
-  if (a.name < b.name) {
-    return -1;
-  }
-  if (a.name > b.name) {
-    return 1;
-  }
-  return 0;
-}
-
-// default gallery sort
-// - sort by color (in color order, see cube cobra)
-// - alphabetically
-export function gallerySort(a: Card, b: Card): number {
-  const aColorIndex = ColorOrderIndices[a.color];
-  const bColorIndex = ColorOrderIndices[b.color];
-
-  if (aColorIndex < bColorIndex) {
-    return -1;
-  }
-  if (aColorIndex > bColorIndex) {
-    return 1;
-  }
-  if (a.name < b.name) {
-    return -1;
-  }
-  if (a.name > b.name) {
-    return 1;
-  }
-  return 0;
 }

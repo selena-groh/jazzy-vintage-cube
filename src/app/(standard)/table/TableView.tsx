@@ -4,7 +4,7 @@ import React from "react";
 import { Box, Heading, SimpleGrid } from "@chakra-ui/react";
 import { CardBuckets, Color } from "@/utilities/magic_types";
 import MagicCardCell from "@/components/MagicCardCell";
-import { defaultTableSort } from "@/utilities/magic_helpers";
+import { defaultTableSort } from "@/utilities/sorting_algorithms";
 
 const COLOR_TO_BACKGROUND_COLOR: { [key in Color]: string } = {
   [Color.White]: "#FBF8CC",

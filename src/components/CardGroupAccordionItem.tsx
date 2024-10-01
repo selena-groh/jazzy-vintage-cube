@@ -6,7 +6,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import MagicCardBadge from "@/components/MagicCardBadge";
-import { defaultTableSort } from "@/utilities/magic_helpers";
+import { defaultTableSort } from "@/utilities/sorting_algorithms";
 import { Card } from "@/utilities/magic_types";
 import Link from "next/link";
 

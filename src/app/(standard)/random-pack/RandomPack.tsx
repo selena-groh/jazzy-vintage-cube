@@ -4,10 +4,10 @@ import React from "react";
 import { Heading, SimpleGrid } from "@chakra-ui/react";
 import MagicCard from "@/components/MagicCard";
 import { Card } from "@/utilities/magic_types";
-import { shuffleArray } from "@/utilities/magic_helpers";
+import { shuffleArray } from "@/utilities/utility_functions";
 
 const RandomPack = ({ cards }: { cards: Card[] }) => {
-  // TODO: check randomness
+  // TODO: check randomness, add button to randomize without page reload
   const pack = shuffleArray(cards).slice(0, 15);
   return (
     <div>

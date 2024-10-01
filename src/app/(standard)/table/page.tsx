@@ -1,5 +1,6 @@
 import TableView from "./TableView";
-import { bucketCardsByColor, processCard } from "@/utilities/magic_helpers";
+import { processCard } from "@/utilities/process_card";
+import { bucketCardsByColor } from "@/utilities/sorting_algorithms";
 import { Card, RawCard } from "@/utilities/magic_types";
 
 export default async function Page() {

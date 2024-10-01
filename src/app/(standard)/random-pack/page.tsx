@@ -1,5 +1,5 @@
 import RandomPack from "./RandomPack";
-import { processCard } from "@/utilities/magic_helpers";
+import { processCard } from "@/utilities/process_card";
 import { Card, RawCard } from "@/utilities/magic_types";
 
 export default async function Page() {
