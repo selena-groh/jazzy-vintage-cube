@@ -20,7 +20,7 @@ yarn
 
 Create a `.env` file in the root of the project, and add the following variable, with your own URL:
 ```
-JSON_URL="urlToJSONFileHere"
+CARD_DATA_JSON_URL="urlToJSONFileHere"
 ```
 
 The JSON file should be in the following format (also defined in the `RawCard` type):
