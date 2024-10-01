@@ -102,7 +102,7 @@ export type Card = {
   };
 };
 
-export type CardBuckets = { [key in Color]?: Card[] };
+export type CardBuckets = { [key in Color]: Card[] };
 
 export type Pack = {
   packNum: number;

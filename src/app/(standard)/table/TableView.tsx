@@ -18,14 +18,14 @@ const COLOR_TO_BACKGROUND_COLOR: { [key in Color]: string } = {
 };
 
 const TableView = ({ bucketedCards }: { bucketedCards: CardBuckets }) => {
-  const bucketKeys = Object.keys(bucketedCards);
+  const bucketKeys = Object.keys(bucketedCards) as Color[];
   return (
     <div>
       <Heading as="h2" size="lg">
         Table View
       </Heading>
       <SimpleGrid
-        columns={{ sm: 2, md: 3, lg: bucketKeys.length }}
+        columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: bucketKeys.length }}
         spacingY="8px"
       >
         {bucketKeys.map((bucketKey) => {

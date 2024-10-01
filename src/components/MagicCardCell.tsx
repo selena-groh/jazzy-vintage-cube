@@ -1,5 +1,5 @@
 import { Badge, Box, Text } from "@chakra-ui/react";
-import { Card, Color } from "@/utilities/magic_types";
+import { Card, Color, TypeCategory } from "@/utilities/magic_types";
 import { Lightbox } from "react-modal-image";
 import { useState } from "react";
 
@@ -19,7 +19,7 @@ const MagicCardCell = ({ card }: { card: Card }) => {
   return (
     <div>
       <Text
-        fontSize="sm"
+        fontSize="xs"
         cursor={card.image ? "pointer" : undefined}
         onClick={() => {
           if (card.image) {
@@ -27,7 +27,7 @@ const MagicCardCell = ({ card }: { card: Card }) => {
           }
         }}
       >
-        {card.name}
+        {`${card.name} (${card.manaValue}, ${card.typeCategory})`}
       </Text>
       {card.image && showImage && (
         <Lightbox
