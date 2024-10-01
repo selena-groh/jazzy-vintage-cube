@@ -9,12 +9,12 @@ const GalleryView = ({ cards }: { cards: Card[] }) => {
   return (
     <div>
       <Heading as="h2" size="lg">
-        Gallery View
+        Gallery View ({cards.length} cards)
       </Heading>
       {/* TODO: add ability to pick card size */}
       {/* TODO: add hover image */}
       <SimpleGrid
-        columns={{ base: 2, sm: 2, md: 4, lg: 5, xl: 7 }}
+        columns={{ base: 2, sm: 2, md: 4, lg: 5, xl: 8 }}
         spacing="4px"
       >
         {cards.map((card) => (

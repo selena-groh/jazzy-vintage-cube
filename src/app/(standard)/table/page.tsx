@@ -9,5 +9,5 @@ export default async function Page() {
   const cards: Card[] = rawCards.map(processCard);
   const bucketedCards = bucketCardsByColor(cards);
 
-  return <TableView bucketedCards={bucketedCards} />;
+  return <TableView cards={cards} bucketedCards={bucketedCards} />;
 }

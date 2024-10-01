@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Box, Heading, SimpleGrid } from "@chakra-ui/react";
-import { CardBuckets, Color } from "@/utilities/magic_types";
+import { Card, CardBuckets, Color } from "@/utilities/magic_types";
 import MagicCardCell from "@/components/MagicCardCell";
 import { defaultTableSort } from "@/utilities/sorting_algorithms";
 
@@ -17,12 +17,18 @@ const COLOR_TO_BACKGROUND_COLOR: { [key in Color]: string } = {
   [Color.Land]: "#ffe0c0",
 };
 
-const TableView = ({ bucketedCards }: { bucketedCards: CardBuckets }) => {
+const TableView = ({
+  cards,
+  bucketedCards,
+}: {
+  cards: Card[];
+  bucketedCards: CardBuckets;
+}) => {
   const bucketKeys = Object.keys(bucketedCards) as Color[];
   return (
     <div>
       <Heading as="h2" size="lg">
-        Table View
+        Table View ({cards.length} cards)
       </Heading>
       <SimpleGrid
         columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: bucketKeys.length }}
