@@ -1,4 +1,5 @@
 import React from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
 import { fonts } from "./fonts";
 
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en" className={fonts.robotoSerif.variable}>
       <body>
         <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html>
   );
