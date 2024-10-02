@@ -9,6 +9,11 @@ const theme = extendTheme({
       body: {
         position: "initial",
       },
+      ul: {
+        listStyleType: "none",
+        margin: 0,
+        padding: 0,
+      },
     },
   },
   colors: {

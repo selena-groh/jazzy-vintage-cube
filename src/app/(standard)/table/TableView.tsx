@@ -1,7 +1,7 @@
 "use client";
 
 import MagicCardCell from "@/components/MagicCardCell";
-import { countGroup, DeepSorted, sortDeep } from "@/utilities/deep_sort";
+import { countGroup, DeepSorted, Sort, sortDeep } from "@/utilities/deep_sort";
 import { Card, Color } from "@/utilities/magic_types";
 import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import { useMemo } from "react";
@@ -24,10 +24,10 @@ const TableView = ({ cards }: { cards: Card[] }) => {
       sortDeep(
         cards,
         true,
-        "Alphabetical",
-        "Color Category",
-        "Types-Multicolor",
-        "Mana Value"
+        Sort.Alphabetical,
+        Sort["Color Category"],
+        Sort["Types-Multicolor"],
+        Sort["Mana Value"]
       ),
     [cards]
   );
@@ -48,47 +48,57 @@ const TableView = ({ cards }: { cards: Card[] }) => {
                 <Heading as="h3" size="md" py="4px" textAlign="center">
                   {columnLabel} ({countGroup(column)})
                 </Heading>
-                {column.map((value) => {
-                  const [label, group]: [string, DeepSorted] = value;
-                  return (
-                    <Box key={label} px="4px">
-                      <Text
-                        backgroundColor="white"
-                        px="4px"
-                        fontWeight="bold"
-                        fontSize="xs"
-                      >
-                        {label}
-                      </Text>
-                      <Box
-                        display="flex"
-                        flexDirection="column"
-                        gap="2px"
-                        px="4px"
-                        py="4px"
-                      >
-                        {group.map((value, index) => {
-                          const [label, cards]: [string, Card[]] = value;
-                          return (
-                            <div key={label}>
-                              {cards.map((card) => (
-                                <MagicCardCell card={card} key={card.name} />
-                              ))}
-                              {index !== group.length - 1 && (
-                                <hr
-                                  style={{
-                                    marginTop: "4px",
-                                    borderColor: "gray",
-                                  }}
-                                />
-                              )}
-                            </div>
-                          );
-                        })}
+                <ul>
+                  {column.map((value) => {
+                    const [label, group]: [string, DeepSorted] = value;
+                    return (
+                      <Box as="li" key={label} px="4px">
+                        <Text
+                          as="h4"
+                          backgroundColor="white"
+                          px="4px"
+                          fontWeight="bold"
+                          fontSize="xs"
+                        >
+                          {label} ({countGroup(group)})
+                        </Text>
+                        <Box
+                          as="ul"
+                          display="flex"
+                          flexDirection="column"
+                          gap="2px"
+                          px="4px"
+                          py="4px"
+                        >
+                          {group.map((value, index) => {
+                            const [label, cards]: [string, Card[]] = value;
+                            return (
+                              <li key={label}>
+                                {/* TODO: may need to make label more flexible */}
+                                <ul aria-label={`Mana Value ${label}`}>
+                                  {cards.map((card) => (
+                                    <MagicCardCell
+                                      card={card}
+                                      key={card.name}
+                                    />
+                                  ))}
+                                </ul>
+                                {index !== group.length - 1 && (
+                                  <hr
+                                    style={{
+                                      marginTop: "4px",
+                                      borderColor: "gray",
+                                    }}
+                                  />
+                                )}
+                              </li>
+                            );
+                          })}
+                        </Box>
                       </Box>
-                    </Box>
-                  );
-                })}
+                    );
+                  })}
+                </ul>
               </Box>
             </Box>
           );

@@ -1,4 +1,4 @@
-import { sortDeep } from "../deep_sort";
+import { Sort, sortDeep } from "../deep_sort";
 import { Card } from "../magic_types";
 
 const TEST_DATA = [
@@ -165,15 +165,15 @@ const TEST_DATA = [
 describe("sortDeep", () => {
   it("groups cards consistently", () => {
     expect(
-  sortDeep(
-    TEST_DATA,
-    true,
-    "Alphabetical",
-    "Color Category",
-    "Types-Multicolor",
-    "Mana Value"
-  )
-).toMatchInlineSnapshot(`
+      sortDeep(
+        TEST_DATA,
+        true,
+        Sort.Alphabetical,
+        Sort["Color Category"],
+        Sort["Types-Multicolor"],
+        Sort["Mana Value"]
+      )
+    ).toMatchInlineSnapshot(`
 [
   [
     "White",

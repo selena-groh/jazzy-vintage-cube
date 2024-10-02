@@ -74,20 +74,28 @@ const FOUR_AND_FIVE_COLOR: string[] = [
   "Five Color",
 ];
 
+export const enum Sort {
+  "Alphabetical" = "Alphabetical",
+  "Color Category" = "Color Category",
+  "Types-Multicolor" = "Types-Multicolor",
+  "Mana Value" = "Mana Value",
+  "Unsorted" = "Unsorted",
+}
+
 export const SortFunctions: Record<string, (a: Card, b: Card) => number> = {
-  Alphabetical: alphaCompare,
-  "Mana Value": (a, b) => a.manaValue - b.manaValue,
+  [Sort.Alphabetical]: alphaCompare,
+  [Sort["Mana Value"]]: (a, b) => a.manaValue - b.manaValue,
 };
 
 function getLabelsRaw(
   cube: Card[] | null,
-  sort: string,
+  sort: Sort,
   showOther: boolean
 ): string[] {
   let ret: string[] = [];
 
   /* Start of sort Options */
-  if (sort === "Color Category") {
+  if (sort === Sort["Color Category"]) {
     ret = [
       "White",
       "Blue",
@@ -99,16 +107,16 @@ function getLabelsRaw(
       "Colorless",
       "Land",
     ];
-  } else if (sort === "Mana Value") {
+  } else if (sort === Sort["Mana Value"]) {
     ret = ["0", "1", "2", "3", "4", "5", "6", "7", "8+"];
-  } else if (sort === "Unsorted") {
-    ret = ["All"];
-  } else if (sort === "Types-Multicolor") {
+  } else if (sort === Sort["Types-Multicolor"]) {
     ret = CARD_TYPES.filter((type) => type !== "Land")
       .concat(GUILDS)
       .concat(SHARDS_AND_WEDGES)
       .concat(FOUR_AND_FIVE_COLOR)
       .concat(["Land", "Other"]);
+  } else if (sort === Sort.Unsorted) {
+    ret = ["All"];
   } /* End of sort options */
 
   // whitespace around 'Other' to prevent collisions
@@ -122,22 +130,22 @@ export function cardGetLabels(
 ): string[] {
   let ret: string[] = [];
   /* Start of sort options */
-  if (sort === "Color Category") {
+  if (sort === Sort["Color Category"]) {
     ret = [card.color];
-  } else if (sort === "Mana Value") {
+  } else if (sort === Sort["Mana Value"]) {
     // Sort by Mana Value, but collapse all >= 8 into '8+' category.
     if (card.manaValue >= 8) {
       ret = ["8+"];
     } else {
       ret = [card.manaValue.toString()];
     }
-  } else if (sort === "Types-Multicolor") {
+  } else if (sort === Sort["Types-Multicolor"]) {
     if (!card.colorIdentity || card.colorIdentity?.length <= 1) {
       ret = [card.typeCategory];
     } else {
       ret = [card.faction];
     }
-  } else if (sort === "Unsorted") {
+  } else if (sort === Sort.Unsorted) {
     ret = ["All"];
   }
   /* End of sort options */
@@ -151,7 +159,7 @@ export function cardGetLabels(
 
 export function sortGroupsOrdered(
   cards: Card[],
-  sort: string,
+  sort: Sort,
   showOther: boolean
 ): [string, Card[]][] {
   const labels = getLabelsRaw(cards, sort, showOther);
@@ -188,13 +196,13 @@ export function sortDeep(
   cards: Card[],
   showOther: boolean,
   last: string,
-  ...sorts: string[]
+  ...sorts: Sort[]
 ): DeepSorted {
   if (sorts.length === 0) {
     return [...cards].sort(SortFunctions[last]);
   }
   const [first, ...rest] = sorts;
-  const nextSort = sortGroupsOrdered(cards, first ?? "Unsorted", showOther);
+  const nextSort = sortGroupsOrdered(cards, first ?? Sort.Unsorted, showOther);
   const result: [string, DeepSorted][] = [];
   for (const [label, group] of nextSort) {
     if (rest.length > 0) {
