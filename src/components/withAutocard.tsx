@@ -19,7 +19,7 @@ const withAutocard = <T extends ElementType>(Tag: T) => {
           ref={ref}
           onMouseEnter={() => showCard(card)}
           onMouseLeave={() => hideCard()}
-          {...(props as any)}
+          {...(props as any)} // eslint-disable-line @typescript-eslint/no-explicit-any
         />
       );
     }

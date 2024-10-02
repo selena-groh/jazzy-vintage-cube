@@ -70,7 +70,7 @@ const CardDiv: React.FC<CardDivProps> = ({ hidden, front, back }) => {
     <Box
       id={styles.autocardPopup}
       style={{
-        // display: hidden ? "none" : "block",
+        display: hidden ? "none" : "block",
         zIndex: 500,
         width: back ? "30rem" : "15rem",
         ...position,
