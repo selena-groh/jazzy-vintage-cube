@@ -95,7 +95,7 @@ export function defaultTableSort(a: Card, b: Card): number {
   } else if (aColorIndex > bColorIndex) {
     return 1;
   } else if (a.color !== Color.Land) {
-    // TODO: multicolor has different sorting, need to add it
+    // TODO: multicolor has different sorting, which is not yet implemented
     if (aTypeCategoryIndex < bTypeCategoryIndex) {
       return -1;
     } else if (aTypeCategoryIndex > bTypeCategoryIndex) {

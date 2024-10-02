@@ -16,7 +16,7 @@ const COLOR_TO_BACKGROUND_COLOR: { [key in Color]: string } = {
   [Color.Land]: "#ffe0c0",
 };
 
-const TableView = ({
+const SimpleTableView = ({
   cards,
   bucketedCards,
 }: {
@@ -24,7 +24,6 @@ const TableView = ({
   bucketedCards: ColorBuckets;
 }) => {
   const bucketKeys = Object.keys(bucketedCards) as Color[];
-  // TODO: add sort & filter
   return (
     <div>
       <Heading as="h2" size="lg">
@@ -47,7 +46,6 @@ const TableView = ({
                 </Heading>
                 <Box display="flex" flexDirection="column" gap="2px">
                   {cardsInBucket.map((card) => (
-                    // TODO: add hover image
                     <MagicCardCell card={card} key={card.name} />
                   ))}
                 </Box>
@@ -60,4 +58,4 @@ const TableView = ({
   );
 };
 
-export default TableView;
+export default SimpleTableView;

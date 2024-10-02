@@ -2,7 +2,7 @@ import { Card } from "@/utilities/magic_types";
 import { Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { Lightbox } from "react-modal-image";
-import withAutocard from "./withAutocard";
+import withAutocard from "./Autocard/withAutocard";
 
 const AutocardDiv = withAutocard("div");
 
@@ -21,7 +21,7 @@ const MagicCardCell = ({ card }: { card: Card }) => {
       >
         {card.name}
       </Text>
-      {/* TODO: add up/down arrow */}
+      {/* TODO: add up/down arrow to navigate through cards*/}
       {card.image && showImage && (
         <Lightbox
           large={card.image}
