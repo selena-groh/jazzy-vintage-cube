@@ -1,7 +1,7 @@
-import { Badge } from "@chakra-ui/react";
 import { Card, Color } from "@/utilities/magic_types";
-import { Lightbox } from "react-modal-image";
+import { Badge } from "@chakra-ui/react";
 import { useState } from "react";
+import { Lightbox } from "react-modal-image";
 
 const COLOR_TO_BADGE_COLOR: { [key in Color]: string } = {
   [Color.White]: "gray",
@@ -31,8 +31,6 @@ const MagicCardBadge = ({ card }: { card: Card }) => {
         }}
       >
         {card.name}
-        {/* ({card.indexNumber ? `#${card.indexNumber} ` : ""}
-        {card.color}) */}
       </Badge>
       {card.image && showImage && (
         <Lightbox

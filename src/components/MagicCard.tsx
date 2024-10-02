@@ -1,5 +1,5 @@
-import { Badge } from "@chakra-ui/react";
 import { Card, Color } from "@/utilities/magic_types";
+import { Badge } from "@chakra-ui/react";
 import Image from "next/image";
 
 const COLOR_TO_BADGE_COLOR: { [key in Color]: string } = {
@@ -22,7 +22,7 @@ const MagicCard = ({ card }: { card: Card }) => {
       colorScheme={COLOR_TO_BADGE_COLOR[card.color]}
       textTransform="initial"
     >
-      {card.name} ({card.indexNumber ? `#${card.indexNumber} ` : ""}
+      {card.name}
       {card.color})
     </Badge>
   );
