@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Flex, Heading, IconButton, SimpleGrid } from "@chakra-ui/react";
-import { RepeatIcon } from "@chakra-ui/icons";
+import ControlledNumberInput from "@/components/ControlledNumberInput";
 import MagicCard from "@/components/MagicCard";
 import { Card } from "@/utilities/magic_types";
 import { shuffleArray } from "@/utilities/utility_functions";
-import ControlledNumberInput from "@/components/ControlledNumberInput";
+import { RepeatIcon } from "@chakra-ui/icons";
+import { Flex, Heading, IconButton, SimpleGrid } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 const CARDS_PER_PACK = 15;
 
@@ -18,7 +18,7 @@ const RandomPack = ({ cards }: { cards: Card[] }) => {
   // TODO: check randomness
   useEffect(
     () => setPack(shuffleArray(cards).slice(0, cardsPerPack)),
-    [counter, cardsPerPack]
+    [counter, cards, cardsPerPack]
   );
 
   return (

@@ -1,8 +1,8 @@
 "use client";
 
-import { Flex, Container, Heading, Text, Box } from "@chakra-ui/react";
-import { SkipNavLink, SkipNavContent } from "@chakra-ui/skip-nav";
 import { Link } from "@chakra-ui/next-js";
+import { Container, Flex, Heading, Text } from "@chakra-ui/react";
+import { SkipNavContent, SkipNavLink } from "@chakra-ui/skip-nav";
 
 const Layout = ({ children }) => {
   return (
