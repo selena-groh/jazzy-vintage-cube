@@ -1,6 +1,7 @@
 import { arrayToValueKeyObject } from "./utility_functions";
 
-type ColorSymbol = "W" | "U" | "B" | "R" | "G" | "P" | "C";
+export type ColorIdentitySymbol = "W" | "U" | "B" | "R" | "G";
+type ColorSymbol = ColorIdentitySymbol | "P" | "C";
 type HybridColorSymbol = `${ColorSymbol | number}/${ColorSymbol}`;
 type ManaSymbol = ColorSymbol | HybridColorSymbol | number | "X" | "Y";
 export type ManaCost = `{${ManaSymbol}}`;
@@ -41,6 +42,40 @@ export const ColorOrderIndices = arrayToValueKeyObject(COLOR_ORDER);
 export const MANA_AFFECTING_CARD_COLOR = ["W", "U", "B", "R", "G"];
 
 export const MANA_AFFECTING_MANA_VALUE = new RegExp("[WUBRGPC]", "i");
+
+export const GUILD_MAP: Record<string, string> = {
+  WU: "Azorius",
+  UB: "Dimir",
+  BR: "Rakdos",
+  RG: "Gruul",
+  WG: "Selesnya",
+  WB: "Orzhov",
+  UR: "Izzet",
+  BG: "Golgari",
+  WR: "Boros",
+  UG: "Simic",
+};
+
+export const SHARD_AND_WEDGE_MAP: Record<string, string> = {
+  WUG: "Bant",
+  WUB: "Esper",
+  UBR: "Grixis",
+  BRG: "Jund",
+  WRG: "Naya",
+  WBG: "Abzan",
+  WUR: "Jeskai",
+  UBG: "Sultai",
+  WBR: "Mardu",
+  URG: "Temur",
+};
+
+export const FOUR_COLOR_MAP: Record<string, string> = {
+  UBRG: "Non-White",
+  WBRG: "Non-Blue",
+  WURG: "Non-Black",
+  WUBG: "Non-Red",
+  WUBR: "Non-Green",
+};
 
 export enum TypeCategory {
   Land = "Land",
@@ -84,11 +119,12 @@ export type RawCard = {
 export type Card = {
   name: string;
   color: Color;
-  indexNumber?: number;
-  mana_cost?: string;
-  manaValue?: number;
-  type?: string;
-  typeCategory?: string;
+  colorIdentity: ColorIdentitySymbol[];
+  faction: string;
+  mana_cost: string;
+  manaValue: number;
+  type: string;
+  typeCategory: string;
   image?: string;
   back?: {
     name: string;

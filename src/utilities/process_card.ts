@@ -1,11 +1,15 @@
 import {
   Card,
   Color,
-  MANA_AFFECTING_MANA_VALUE,
+  ColorIdentitySymbol,
+  FOUR_COLOR_MAP,
+  GUILD_MAP,
   isManaCost,
   MANA_AFFECTING_CARD_COLOR,
+  MANA_AFFECTING_MANA_VALUE,
   ManaCost,
   RawCard,
+  SHARD_AND_WEDGE_MAP,
   TypeCategory,
 } from "./magic_types";
 
@@ -31,7 +35,7 @@ function getColorFromManaCost(mana_cost: string): Color {
     .filter((char) => MANA_AFFECTING_CARD_COLOR.includes(char));
 
   // Deduplicate so that WW becomes W
-  var deduplicatedColoredManaChars = new Set(coloredManaChars);
+  const deduplicatedColoredManaChars = new Set(coloredManaChars);
 
   // If there's more than one color in the deduplicated set, the card is Multicolored
   if (deduplicatedColoredManaChars.size > 1) {
@@ -64,6 +68,42 @@ export function getColorFromRawCard(rawCard: RawCard): Color {
     return Color.Multicolored;
   }
   return getColorFromManaCost(rawCard.mana_cost);
+}
+
+export function getColorIdentityFromManaCost(
+  mana_cost: string
+): ColorIdentitySymbol[] {
+  // Strip out all characters besides WUBRG
+  const coloredManaChars = mana_cost
+    .split("")
+    .filter((char) => MANA_AFFECTING_CARD_COLOR.includes(char));
+
+  // Deduplicate so that WW becomes W
+  const deduplicatedColoredManaChars = Array.from(new Set(coloredManaChars));
+  // Order the characters in WUBRG order
+  const ordered = MANA_AFFECTING_CARD_COLOR.filter((c) =>
+    deduplicatedColoredManaChars.includes(c)
+  ) as ColorIdentitySymbol[];
+  return ordered ?? [];
+}
+
+export function getFactionFromColorIdentity(
+  colorIdentity: ColorIdentitySymbol[]
+): string {
+  const colorIdentityString = colorIdentity.join("");
+  if (colorIdentity.length < 2) {
+    return getColorFromManaCost(colorIdentityString);
+  }
+  if (colorIdentity.length === 2) {
+    return GUILD_MAP[colorIdentityString];
+  }
+  if (colorIdentity.length === 3) {
+    return SHARD_AND_WEDGE_MAP[colorIdentityString];
+  }
+  if (colorIdentity.length === 4) {
+    return FOUR_COLOR_MAP[colorIdentityString];
+  }
+  return "Five Color";
 }
 
 // Splits a string into an array of each bracket e.g. "{W}{G/P}" becomes ["{W}", "{G/P}"]
@@ -135,9 +175,12 @@ export function getTypeCategory(rawType: string): string {
 }
 
 export function processCard(rawCard: RawCard): Card {
+  const colorIdentity = getColorIdentityFromManaCost(rawCard.mana_cost);
   return {
     ...rawCard,
     color: getColorFromRawCard(rawCard),
+    colorIdentity,
+    faction: getFactionFromColorIdentity(colorIdentity),
     manaValue: getManaValueFromCost(rawCard.mana_cost),
     typeCategory: getTypeCategory(rawCard.type),
   };

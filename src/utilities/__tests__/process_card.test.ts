@@ -1,8 +1,11 @@
+import { ColorIdentitySymbol } from "../magic_types";
 import {
-  splitManaCostIntoArray,
-  getManaValueFromCost,
   getColorFromRawCard,
+  getColorIdentityFromManaCost,
+  getFactionFromColorIdentity,
+  getManaValueFromCost,
   getTypeCategory,
+  splitManaCostIntoArray,
 } from "../process_card";
 
 describe("getColorFromRawCard", () => {
@@ -110,6 +113,38 @@ describe("getColorFromRawCard", () => {
   ])('card "$card.name" has color "$color"', ({ card, color }) => {
     expect(getColorFromRawCard(card)).toEqual(color);
   });
+});
+
+describe("getColorIdentityFromManaCost", () => {
+  test.each([
+    ["", []],
+    ["{W}", ["W"]],
+    ["{W}{U}{B}{R}{G}", ["W", "U", "B", "R", "G"]],
+    ["{B}{U}", ["U", "B"]],
+    ["{1}{G}", ["G"]],
+    ["{W/G}{P}", ["W", "G"]],
+    ["{10}", []],
+    ["{10/G}", ["G"]],
+  ])('mana_cost "%s" has color identity of "%s"', (mana_cost, expected) => {
+    expect(getColorIdentityFromManaCost(mana_cost)).toEqual(expected);
+  });
+});
+
+describe("getFactionFromColorIdentity", () => {
+  test.each([
+    [[], "Colorless"],
+    [["G"], "Green"],
+    [["U", "B"], "Dimir"],
+    [["B", "R", "G"], "Jund"],
+    [["W", "G"], "Selesnya"],
+    [["U", "B", "R", "G"], "Non-White"],
+    [["W", "U", "B", "R", "G"], "Five Color"],
+  ])(
+    'colorIdentity "%s" has faction name of "%s"',
+    (colorIdentity: ColorIdentitySymbol[], expected) => {
+      expect(getFactionFromColorIdentity(colorIdentity)).toEqual(expected);
+    }
+  );
 });
 
 describe("splitManaCostIntoArray", () => {
