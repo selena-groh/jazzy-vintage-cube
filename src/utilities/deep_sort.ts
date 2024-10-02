@@ -130,7 +130,7 @@ export function cardGetLabels(
       ret = [card.manaValue.toString()];
     }
   } else if (sort === "Types-Multicolor") {
-    if (card.colorIdentity.length <= 1) {
+    if (card.colorIdentity?.length <= 1) {
       ret = [card.typeCategory];
     } else {
       ret = [card.faction];
