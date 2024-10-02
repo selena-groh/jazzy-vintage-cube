@@ -1,12 +1,15 @@
 import {
   Card,
-  CardBuckets,
   Color,
+  ColorBuckets,
   ColorOrderIndices,
+  ManaValueBuckets,
+  TypeCategory,
+  TypeCategoryBuckets,
   TypeCategoryOrderIndices,
 } from "./magic_types";
 
-export function bucketCardsByColor(cards: Card[]): CardBuckets {
+export function bucketCardsByColor(cards: Card[]): ColorBuckets {
   return {
     [Color.White]: cards.filter((card) => card.color === Color.White),
     [Color.Blue]: cards.filter((card) => card.color === Color.Blue),
@@ -19,6 +22,49 @@ export function bucketCardsByColor(cards: Card[]): CardBuckets {
     [Color.Colorless]: cards.filter((card) => card.color === Color.Colorless),
     [Color.Land]: cards.filter((card) => card.color === Color.Land),
   };
+}
+
+export function bucketCardsByTypeCategory(cards: Card[]): TypeCategoryBuckets {
+  return {
+    [TypeCategory.Prophecy]: cards.filter(
+      (card) => card.typeCategory === TypeCategory.Prophecy
+    ),
+    [TypeCategory.Creature]: cards.filter(
+      (card) => card.typeCategory === TypeCategory.Creature
+    ),
+    [TypeCategory.Planeswalker]: cards.filter(
+      (card) => card.typeCategory === TypeCategory.Planeswalker
+    ),
+    [TypeCategory.Instant]: cards.filter(
+      (card) => card.typeCategory === TypeCategory.Instant
+    ),
+    [TypeCategory.Sorcery]: cards.filter(
+      (card) => card.typeCategory === TypeCategory.Sorcery
+    ),
+    [TypeCategory.Artifact]: cards.filter(
+      (card) => card.typeCategory === TypeCategory.Artifact
+    ),
+    [TypeCategory.Enchantment]: cards.filter(
+      (card) => card.typeCategory === TypeCategory.Enchantment
+    ),
+    [TypeCategory.Land]: cards.filter(
+      (card) => card.typeCategory === TypeCategory.Land
+    ),
+    [TypeCategory.Battle]: cards.filter(
+      (card) => card.typeCategory === TypeCategory.Battle
+    ),
+  };
+}
+
+export function bucketCardsByManaValue(cards: Card[]): ManaValueBuckets {
+  return cards.reduce((acc, card) => {
+    const key = card.manaValue ?? 99;
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(card);
+    return acc;
+  }, {});
 }
 
 // default table sort in order:
@@ -35,8 +81,8 @@ export function bucketCardsByColor(cards: Card[]): CardBuckets {
 // for lands:
 // - sort by name
 export function defaultTableSort(a: Card, b: Card): number {
-  const aColorIndex = ColorOrderIndices[a.color];
-  const bColorIndex = ColorOrderIndices[b.color];
+  const aColorIndex = ColorOrderIndices[a.color] ?? 99;
+  const bColorIndex = ColorOrderIndices[b.color] ?? 99;
   const aTypeCategoryIndex = a.typeCategory
     ? TypeCategoryOrderIndices[a.typeCategory]
     : 99;
@@ -55,8 +101,8 @@ export function defaultTableSort(a: Card, b: Card): number {
     } else if (aTypeCategoryIndex > bTypeCategoryIndex) {
       return 1;
     }
-    const aManaValue = a.manaValue || 0;
-    const bManaValue = b.manaValue || 0;
+    const aManaValue = a.manaValue;
+    const bManaValue = b.manaValue;
     if (aManaValue < bManaValue) {
       return -1;
     } else if (aManaValue > bManaValue) {
@@ -77,8 +123,8 @@ export function defaultTableSort(a: Card, b: Card): number {
 // - sort by color (in color order, see cube cobra)
 // - alphabetically
 export function gallerySort(a: Card, b: Card): number {
-  const aColorIndex = ColorOrderIndices[a.color];
-  const bColorIndex = ColorOrderIndices[b.color];
+  const aColorIndex = ColorOrderIndices[a.color] ?? 99;
+  const bColorIndex = ColorOrderIndices[b.color] ?? 99;
 
   if (aColorIndex < bColorIndex) {
     return -1;

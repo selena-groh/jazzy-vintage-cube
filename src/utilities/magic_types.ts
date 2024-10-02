@@ -97,7 +97,14 @@ export type Card = {
   };
 };
 
-export type CardBuckets = { [key in Color]: Card[] };
+export type ColorBuckets = { [key in Color]: Card[] };
+export type TypeCategoryBuckets = { [key in TypeCategory]: Card[] };
+export type ManaValueBuckets = { [key: number]: Card[] };
+export type BucketsForTable = {
+  [key in keyof ColorBuckets]: {
+    [key in TypeCategory]: { [key: number]: Card[] };
+  };
+};
 
 export type Pack = {
   packNum?: number;
