@@ -1,0 +1,24 @@
+/* Adapted from https://github.com/dekkerglen/CubeCobra/blob/master/public/css/stylesheet.css */
+
+#autocardPopup {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 15rem;
+}
+
+#autocardPopup img {
+  width: 15rem;
+}
+
+@media (hover: none) {
+  #autocardPopup {
+    display: none !important;
+  }
+}

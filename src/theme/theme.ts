@@ -3,6 +3,14 @@ import { extendTheme } from "@chakra-ui/react";
 const primaryColor = "#6F0B46";
 
 const theme = extendTheme({
+  styles: {
+    global: {
+      // Needed for Autocard to position "bottom" properly
+      body: {
+        position: "initial",
+      },
+    },
+  },
   colors: {
     primary: primaryColor,
   },

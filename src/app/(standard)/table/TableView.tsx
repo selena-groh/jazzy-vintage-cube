@@ -37,7 +37,7 @@ const TableView = ({ cards }: { cards: Card[] }) => {
         Table View ({cards.length} cards)
       </Heading>
       <SimpleGrid
-        columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: sorted.length }}
+        columns={{ base: 2, sm: 2, md: 3, lg: 4, xl: sorted.length }}
         spacingY="8px"
       >
         {sorted.map((value) => {

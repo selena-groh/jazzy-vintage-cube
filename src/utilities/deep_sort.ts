@@ -1,3 +1,5 @@
+// Adapted from https://github.com/dekkerglen/CubeCobra/blob/master/src/utils/Sort.ts
+
 import { Card } from "./magic_types";
 
 export function alphaCompare(a: Card, b: Card): number {

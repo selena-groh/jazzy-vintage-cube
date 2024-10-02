@@ -2,11 +2,14 @@ import { Card } from "@/utilities/magic_types";
 import { Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { Lightbox } from "react-modal-image";
+import withAutocard from "./withAutocard";
+
+const AutocardDiv = withAutocard("div");
 
 const MagicCardCell = ({ card }: { card: Card }) => {
   const [showImage, setShowImage] = useState(false);
   return (
-    <div>
+    <AutocardDiv card={card}>
       <Text
         fontSize="xs"
         cursor={card.image ? "pointer" : undefined}
@@ -27,7 +30,7 @@ const MagicCardCell = ({ card }: { card: Card }) => {
           imageBackgroundColor="white"
         />
       )}
-    </div>
+    </AutocardDiv>
   );
 };
 
