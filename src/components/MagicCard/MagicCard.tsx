@@ -1,11 +1,9 @@
+import { CARD_HEIGHT, CARD_WIDTH } from "@/utilities/constants";
 import { Card, Color } from "@/utilities/magic_types";
 import { Box, Text, VisuallyHidden } from "@chakra-ui/react";
 import cx from "classnames";
 import Image from "next/image";
 import styles from "./MagicCard.module.css";
-
-const WIDTH = 375;
-const HEIGHT = 523;
 
 const COLOR_TO_BACKGROUND_COLOR: { [key in Color]: string } = {
   [Color.White]: "#FBF8CC",
@@ -33,8 +31,8 @@ const MagicCard = ({ card }: { card: Card }) => {
             <Image
               alt={card.name}
               src={card.image}
-              width={WIDTH}
-              height={HEIGHT}
+              width={CARD_WIDTH}
+              height={CARD_HEIGHT}
             />
           ) : (
             <Box
@@ -57,8 +55,8 @@ const MagicCard = ({ card }: { card: Card }) => {
             <Image
               alt={`${card.name} Back`}
               src={card.back.image}
-              width={WIDTH}
-              height={HEIGHT}
+              width={CARD_WIDTH}
+              height={CARD_HEIGHT}
             />
           </div>
         )}

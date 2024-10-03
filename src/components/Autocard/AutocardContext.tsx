@@ -2,12 +2,15 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
+import { CARD_HEIGHT, CARD_WIDTH } from "@/utilities/constants";
 import { Card } from "@/utilities/magic_types";
 import { Box } from "@chakra-ui/react";
+import Image from "next/image";
 import styles from "./Autocard.module.css";
 
 interface CardDivProps {
   hidden: boolean;
+  name: string | null;
   front: string | null;
   back: string | null;
 }
@@ -19,7 +22,7 @@ type Position = {
   bottom?: string;
 };
 
-const CardDiv: React.FC<CardDivProps> = ({ hidden, front, back }) => {
+const CardDiv: React.FC<CardDivProps> = ({ hidden, name, front, back }) => {
   const [position, setPosition] = useState<Position>({
     left: "0px",
     right: "0px",
@@ -81,17 +84,24 @@ const CardDiv: React.FC<CardDivProps> = ({ hidden, front, back }) => {
         <Box display="flex" flexWrap="wrap">
           {front && (
             <Box position="relative" borderRadius="4.72% / 3.37%">
-              <img
+              <Image
                 id="autocardImageFront"
+                alt={name ?? ""}
                 src={front}
-                alt={front}
-                key={front}
+                width={CARD_WIDTH}
+                height={CARD_HEIGHT}
               />
             </Box>
           )}
           {back && (
             <Box position="relative" borderRadius="4.72% / 3.37%">
-              <img id="autocardImageBack" src={back} alt={back} key={back} />
+              <Image
+                id="autocardImageBack"
+                alt={`${name ?? "Card"} Back`}
+                src={back}
+                width={CARD_WIDTH}
+                height={CARD_HEIGHT}
+              />
             </Box>
           )}
         </Box>
@@ -114,17 +124,20 @@ export const AutocardContextProvider: React.FC<{ children: JSX.Element }> = ({
   children,
 }) => {
   const [hidden, setHidden] = useState(true);
+  const [name, setName] = useState<string | null>(null);
   const [front, setFront] = useState<string | null>(null);
   const [back, setBack] = useState<string | null>(null);
 
   const showCard = useCallback((card: Card) => {
     setHidden(false);
+    setName(card.name ?? null);
     setFront(card.image ?? null);
     setBack(card.back?.image ?? null);
   }, []);
 
   const hideCard = useCallback(() => {
     setHidden(true);
+    setName(null);
     setFront(null);
     setBack(null);
   }, []);
@@ -137,7 +150,7 @@ export const AutocardContextProvider: React.FC<{ children: JSX.Element }> = ({
   return (
     <AutocardContext.Provider value={value}>
       {children}
-      <CardDiv hidden={hidden} front={front} back={back} />
+      <CardDiv hidden={hidden} name={name} front={front} back={back} />
     </AutocardContext.Provider>
   );
 };
