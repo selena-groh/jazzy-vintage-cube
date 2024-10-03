@@ -1,8 +1,10 @@
 "use client";
 
-import { Link } from "@chakra-ui/next-js";
-import { Container, Flex, Heading, Text } from "@chakra-ui/react";
+import logo from "@/assets/logo.png";
+import { Box, Container, Flex, Heading, Link, Text } from "@chakra-ui/react";
 import { SkipNavContent, SkipNavLink } from "@chakra-ui/skip-nav";
+import Image from "next/image";
+import NextLink from "next/link";
 
 const Layout = ({ children }) => {
   return (
@@ -21,9 +23,17 @@ const Layout = ({ children }) => {
             textAlign={{ base: "center", lg: "left" }}
           >
             <div>
-              <Heading as="h1" size="2xl">
-                Jazzy Vintage Cube
-              </Heading>
+              <Box display="flex" gap="2px">
+                <Box
+                  width={{ base: "43px", md: "48px" }}
+                  height={{ base: "43px", md: "48px" }}
+                >
+                  <Image src={logo} alt="" />
+                </Box>
+                <Heading as="h1" size="2xl" mb="8px">
+                  Jazzy Vintage Cube
+                </Heading>
+              </Box>
               <Text color="gray.600">
                 A custom, vintage-power-level Magic the Gathering cube.
               </Text>
@@ -33,10 +43,18 @@ const Layout = ({ children }) => {
               gap={{ base: "8px", lg: "32px" }}
               justify="flex-start"
             >
-              <Link href="/">Overview</Link>
-              <Link href="/table">Table View</Link>
-              <Link href="/gallery">Gallery View</Link>
-              <Link href="/random-pack">Random Pack</Link>
+              <Link as={NextLink} href="/">
+                Overview
+              </Link>
+              <Link as={NextLink} href="/table">
+                Table View
+              </Link>
+              <Link as={NextLink} href="/gallery">
+                Gallery View
+              </Link>
+              <Link as={NextLink} href="/random-pack">
+                Random Pack
+              </Link>
             </Flex>
           </Flex>
           {children}
