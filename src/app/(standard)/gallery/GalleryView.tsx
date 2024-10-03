@@ -1,6 +1,6 @@
 "use client";
 
-import MagicCard from "@/components/MagicCard";
+import MagicCard from "@/components/MagicCard/MagicCard";
 import { Card } from "@/utilities/magic_types";
 import {
   Flex,

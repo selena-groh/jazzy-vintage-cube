@@ -1,7 +1,7 @@
 "use client";
 
 import ControlledNumberInput from "@/components/ControlledNumberInput";
-import MagicCard from "@/components/MagicCard";
+import MagicCard from "@/components/MagicCard/MagicCard";
 import { Card } from "@/utilities/magic_types";
 import { shuffleArray } from "@/utilities/utility_functions";
 import { RepeatIcon } from "@chakra-ui/icons";
