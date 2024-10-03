@@ -39,7 +39,7 @@ const GalleryView = ({ cards }: { cards: Card[] }) => {
           Gallery View ({cards.length} cards)
         </Heading>
         <RadioGroup
-          colorScheme="purple"
+          colorScheme="yellow"
           value={selectedSize}
           onChange={(value: SIZE) => setSelectedSize(value)}
         >

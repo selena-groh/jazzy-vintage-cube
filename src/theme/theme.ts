@@ -1,6 +1,17 @@
-import { extendTheme } from "@chakra-ui/react";
+import { defineStyle, extendTheme } from "@chakra-ui/react";
 
-const primaryColor = "#6F0B46";
+import { defineStyleConfig } from "@chakra-ui/react";
+
+export const buttonTheme = defineStyleConfig({
+  variants: {
+    primary: defineStyle({
+      background: "primary",
+    }),
+  },
+  defaultProps: {
+    colorScheme: "primary",
+  },
+});
 
 const theme = extendTheme({
   styles: {
@@ -17,7 +28,11 @@ const theme = extendTheme({
     },
   },
   colors: {
-    primary: primaryColor,
+    primary: {
+      50: "#C6A15B",
+      500: "#A2813C",
+      900: "#8A6619",
+    },
   },
   fonts: {
     body: "system-ui, sans-serif",
@@ -46,14 +61,14 @@ const theme = extendTheme({
     },
     Link: {
       baseStyle: {
-        color: "primary",
-        _hover: { textDecorationThickness: "1px", color: "primary" },
+        color: "primary.900",
+        _hover: { textDecorationThickness: "1px", color: "primary.500" },
         transition: "color 200ms",
       },
       variants: {
         icon: {
           color: "gray.800",
-          _hover: { textDecorationThickness: "1px", color: "primary" },
+          _hover: { textDecorationThickness: "1px", color: "primary.900" },
           transition: "color 200ms",
         },
         inverse: {
@@ -62,23 +77,8 @@ const theme = extendTheme({
         },
       },
     },
-    Tag: {
-      parts: ["container", "label", "closeButton"],
-      variants: {
-        outline: {
-          container: {
-            boxShadow: `inset 0 0 0px 1px ${primaryColor}`,
-            color: "primary",
-          },
-        },
-        solid: {
-          container: {
-            bg: "primary",
-            color: "white",
-          },
-        },
-      },
-    },
+    Button: buttonTheme,
+    IconButton: buttonTheme,
   },
 });
 

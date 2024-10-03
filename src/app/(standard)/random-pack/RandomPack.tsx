@@ -40,7 +40,6 @@ const RandomPack = ({ cards }: { cards: Card[] }) => {
             updateValue={setCardsPerPack}
           />
           <IconButton
-            colorScheme="purple"
             aria-label="Randomize Pack"
             size="lg"
             icon={<RepeatIcon />}
