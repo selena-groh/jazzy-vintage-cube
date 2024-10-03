@@ -1,5 +1,5 @@
 import { Card, Color } from "@/utilities/magic_types";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, VisuallyHidden } from "@chakra-ui/react";
 import cx from "classnames";
 import Image from "next/image";
 import styles from "./MagicCard.module.css";
@@ -27,6 +27,8 @@ const MagicCard = ({ card }: { card: Card }) => {
     >
       <div className={styles.flipBoxInner}>
         <div className={styles.flipBoxFront}>
+          {/* TODO: remove once filtering works */}
+          <VisuallyHidden>{card.name}</VisuallyHidden>
           {card.image ? (
             <Image
               alt={card.name}
