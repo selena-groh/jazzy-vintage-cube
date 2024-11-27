@@ -1,3 +1,4 @@
+import "server-only";
 import RandomPack from "./RandomPack";
 import { processCard } from "@/utilities/process_card";
 import { Card, RawCard } from "@/utilities/magic_types";

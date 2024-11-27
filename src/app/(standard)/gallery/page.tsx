@@ -1,3 +1,4 @@
+import "server-only";
 import GalleryView from "./GalleryView";
 import { processCard } from "@/utilities/process_card";
 import { gallerySort } from "@/utilities/sorting_algorithms";

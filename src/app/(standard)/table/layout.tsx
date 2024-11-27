@@ -1,5 +1,4 @@
-"use client";
-
+import "server-only";
 import { AutocardContextProvider } from "@/components/Autocard/AutocardContext";
 
 const Layout = ({ children }) => {

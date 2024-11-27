@@ -1,3 +1,4 @@
+"use client";
 // Adapted from https://github.com/dekkerglen/CubeCobra/blob/master/src/components/AutocardListGroup.tsx
 
 import React, { useCallback, useEffect, useRef, useState } from "react";

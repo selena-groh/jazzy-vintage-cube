@@ -1,0 +1,62 @@
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.LoadingSpinner div {
+  left: 40px;
+  top: 1px;
+  position: absolute;
+  animation: fadeOut linear 1.2195121951219512s infinite;
+  background: #d9c89a;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px / 10px;
+  transform-origin: 10px 49px;
+}
+.LoadingSpinner div:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -0.9756097560975608s;
+  background: #d9c89a;
+}
+.LoadingSpinner div:nth-child(2) {
+  transform: rotate(72deg);
+  animation-delay: -0.7317073170731706s;
+  background: #4c9ac0;
+}
+.LoadingSpinner div:nth-child(3) {
+  transform: rotate(144deg);
+  animation-delay: -0.4878048780487804s;
+  background: #2b241c;
+}
+.LoadingSpinner div:nth-child(4) {
+  transform: rotate(216deg);
+  animation-delay: -0.2439024390243902s;
+  background: #b1331c;
+}
+.LoadingSpinner div:nth-child(5) {
+  transform: rotate(288deg);
+  animation-delay: 0s;
+  background: #6a9760;
+}
+.LoadingSpinnerWrapper {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  overflow: hidden;
+  background: none;
+}
+.LoadingSpinner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0; /* see note above */
+}
+.LoadingSpinner div {
+  box-sizing: content-box;
+}

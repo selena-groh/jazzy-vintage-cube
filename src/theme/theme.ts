@@ -14,6 +14,10 @@ export const buttonTheme = defineStyleConfig({
 });
 
 const theme = extendTheme({
+  config: {
+    initialColorMode: "light",
+    useSystemColorMode: false,
+  },
   styles: {
     global: {
       // Needed for Autocard to position "bottom" properly

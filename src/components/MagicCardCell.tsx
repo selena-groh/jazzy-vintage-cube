@@ -1,3 +1,5 @@
+"use client";
+
 import { Card } from "@/utilities/magic_types";
 import { Text } from "@chakra-ui/react";
 import { useState } from "react";

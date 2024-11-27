@@ -1,10 +1,8 @@
-"use client";
-
+import "server-only";
 import MagicCardCell from "@/components/MagicCardCell";
-import { countGroup, DeepSorted, Sort, sortDeep } from "@/utilities/deep_sort";
+import { countGroup, DeepSorted } from "@/utilities/deep_sort";
 import { Card, Color } from "@/utilities/magic_types";
 import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
-import { useMemo } from "react";
 
 const COLOR_TO_BACKGROUND_COLOR: { [key in Color]: string } = {
   [Color.White]: "#FBF8CC",
@@ -17,24 +15,18 @@ const COLOR_TO_BACKGROUND_COLOR: { [key in Color]: string } = {
   [Color.Land]: "#ffe0c0",
 };
 
-const TableView = ({ cards }: { cards: Card[] }) => {
+const TableView = ({
+  numCards,
+  sorted,
+}: {
+  numCards: number;
+  sorted: DeepSorted;
+}) => {
   // TODO: add sort configuration & filter
-  const sorted = useMemo(
-    () =>
-      sortDeep(
-        cards,
-        true,
-        Sort.Alphabetical,
-        Sort["Color Category"],
-        Sort["Types-Multicolor"],
-        Sort["Mana Value"]
-      ),
-    [cards]
-  );
   return (
     <div>
       <Heading as="h2" size="lg">
-        Table View ({cards.length} cards)
+        Table View ({numCards} cards)
       </Heading>
       <SimpleGrid
         columns={{ base: 2, sm: 2, md: 3, lg: 4, xl: sorted.length }}

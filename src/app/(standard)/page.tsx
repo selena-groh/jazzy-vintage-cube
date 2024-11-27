@@ -1,7 +1,6 @@
-// Import your Client Component
-import Home from "./home";
+import "server-only";
+import React from "react";
 
 export default async function Page() {
-  // Forward fetched data to your Client Component
-  return <Home />;
+  return <div>TODO add cube information here</div>;
 }
