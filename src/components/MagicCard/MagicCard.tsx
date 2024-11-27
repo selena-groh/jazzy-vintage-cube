@@ -16,7 +16,13 @@ const COLOR_TO_BACKGROUND_COLOR: { [key in Color]: string } = {
   [Color.Land]: "#ffe0c0",
 };
 
-const MagicCard = ({ card }: { card: Card }) => {
+const MagicCard = ({
+  card,
+  imagePriority = false,
+}: {
+  card: Card;
+  imagePriority?: boolean;
+}) => {
   return (
     <div
       className={cx({
@@ -33,6 +39,8 @@ const MagicCard = ({ card }: { card: Card }) => {
               src={card.image}
               width={CARD_WIDTH}
               height={CARD_HEIGHT}
+              loading={imagePriority ? "eager" : "lazy"}
+              priority={imagePriority}
             />
           ) : (
             <Box

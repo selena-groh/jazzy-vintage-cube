@@ -52,7 +52,7 @@ const RandomPack = ({ cards }: { cards: Card[] }) => {
         spacing="4px"
       >
         {pack.map((card) => (
-          <MagicCard card={card} key={card.name} />
+          <MagicCard key={card.name} card={card} imagePriority={false} />
         ))}
       </SimpleGrid>
     </div>
