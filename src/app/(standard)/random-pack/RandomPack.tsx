@@ -13,7 +13,7 @@ const CARDS_PER_PACK = 15;
 const RandomPack = ({ cards }: { cards: Card[] }) => {
   const [cardsPerPack, setCardsPerPack] = useState(CARDS_PER_PACK);
   const [counter, setCounter] = useState(0);
-  const [pack, setPack] = useState(shuffleArray(cards).slice(0, cardsPerPack));
+  const [pack, setPack] = useState<Card[]>([]);
 
   // TODO: check randomness
   useEffect(
