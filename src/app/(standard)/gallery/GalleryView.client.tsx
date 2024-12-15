@@ -41,6 +41,7 @@ const GalleryViewClient = ({ numCards, children }) => {
           value={selectedSize}
           onChange={(value: SIZE) => setSelectedSize(value)}
         >
+          {/* TODO: fix tab accessibility */}
           <Stack spacing={4} direction="row">
             <Radio size="lg" value={SIZE.SMALL}>
               Small

@@ -1,6 +1,6 @@
-import "server-only";
 import MagicCard from "@/components/MagicCard/MagicCard";
 import { Card } from "@/utilities/magic_types";
+import "server-only";
 import GalleryViewClient from "./GalleryView.client";
 
 const ABOVE_THE_FOLD_THRESHOLD = 16;

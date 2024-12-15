@@ -35,16 +35,16 @@ const Header = () => {
         gap={{ base: "8px", lg: "32px" }}
         justify="flex-start"
       >
-        <Link as={NextLink} href="/">
+        <Link as={NextLink} href="/" tabIndex={0}>
           Overview
         </Link>
-        <Link as={NextLink} href="/table">
+        <Link as={NextLink} href="/table" tabIndex={0}>
           Table View
         </Link>
-        <Link as={NextLink} href="/gallery">
+        <Link as={NextLink} href="/gallery" tabIndex={0}>
           Gallery View
         </Link>
-        <Link as={NextLink} href="/random-pack">
+        <Link as={NextLink} href="/random-pack" tabIndex={0}>
           Random Pack
         </Link>
       </Flex>

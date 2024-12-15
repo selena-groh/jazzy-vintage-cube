@@ -1,7 +1,7 @@
-import "server-only";
 import Header from "@/components/Header";
 import { Container, Flex } from "@chakra-ui/react";
 import { SkipNavContent, SkipNavLink } from "@chakra-ui/skip-nav";
+import "server-only";
 
 const Layout = ({ children }) => {
   return (

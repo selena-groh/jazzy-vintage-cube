@@ -19,6 +19,8 @@ const withAutocard = <T extends ElementType>(Tag: T) => {
           ref={ref}
           onMouseEnter={() => showCard(card)}
           onMouseLeave={() => hideCard()}
+          onFocus={() => showCard(card)}
+          onBlur={() => hideCard()}
           {...(props as any)} // eslint-disable-line @typescript-eslint/no-explicit-any
         />
       );
